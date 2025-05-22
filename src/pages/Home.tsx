@@ -1,12 +1,15 @@
+
 import { useState, useEffect } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Code, Users, Award, Rocket, Layout, Gamepad2, Braces, Cpu, PenTool, CheckCircle2 } from "lucide-react";
+import { Code, Users, Award, Rocket, Layout, Gamepad2, Braces, Cpu, PenTool, CheckCircle2, ExternalLink, Info } from "lucide-react";
+import SkillSection from "@/components/SkillSection";
+import ProcessSection from "@/components/ProcessSection";
+import FeaturedProjectCard from "@/components/FeaturedProjectCard";
 
 const Home = () => {
   const { scrollYProgress } = useScroll();
@@ -61,27 +64,27 @@ const Home = () => {
     {
       title: "Concept & Planning",
       description: "We start by defining your vision, requirements, and game mechanics.",
-      icon: <PenTool className="w-10 h-10 text-purple-400" />
+      icon: <PenTool className="w-10 h-10 text-white" />
     },
     {
       title: "Design & Prototyping",
       description: "Creating the visual style and developing a playable prototype.",
-      icon: <Layout className="w-10 h-10 text-purple-400" />
+      icon: <Layout className="w-10 h-10 text-white" />
     },
     {
       title: "Development",
       description: "Building the game with regular updates and milestone reviews.",
-      icon: <Code className="w-10 h-10 text-purple-400" />
+      icon: <Code className="w-10 h-10 text-white" />
     },
     {
       title: "Testing & QA",
       description: "Rigorous quality assurance to ensure a polished product.",
-      icon: <CheckCircle2 className="w-10 h-10 text-purple-400" />
+      icon: <CheckCircle2 className="w-10 h-10 text-white" />
     },
     {
       title: "Launch & Support",
       description: "Game release with continued support and updates.",
-      icon: <Rocket className="w-10 h-10 text-purple-400" />
+      icon: <Rocket className="w-10 h-10 text-white" />
     }
   ];
   
@@ -91,28 +94,32 @@ const Home = () => {
       title: "Cosmic Odyssey",
       description: "A space exploration adventure with procedurally generated planets.",
       image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b",
-      category: "3D Game"
+      category: "3D Game",
+      demoUrl: "#"
     },
     {
       id: 2,
       title: "Pixel Warriors",
       description: "Retro-style action platformer with modern gameplay mechanics.",
       image: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7",
-      category: "2D Game"
+      category: "2D Game",
+      demoUrl: "#"
     },
     {
       id: 3,
       title: "Ancient Realms",
       description: "Immersive fantasy environments with realistic lighting and physics.",
       image: "https://images.unsplash.com/photo-1531297484001-80022131f5a1",
-      category: "Game Environments"
+      category: "Game Environments",
+      demoUrl: "#"
     },
     {
       id: 4,
       title: "Particle Mayhem",
       description: "Next-gen visual effects system for explosive game moments.",
       image: "https://images.unsplash.com/photo-1470813740244-df37b8c1edcb",
-      category: "Game VFX"
+      category: "Game VFX",
+      demoUrl: "#"
     }
   ];
   
@@ -155,6 +162,37 @@ const Home = () => {
             }}
           />
           
+          {/* Animated 3D grid */}
+          <div className="absolute inset-0 z-0 perspective-1000">
+            <div className="h-full w-full transform-style-3d">
+              {[...Array(10)].map((_, row) => (
+                <div key={`grid-row-${row}`} className="relative w-full" style={{ height: '10%' }}>
+                  {[...Array(10)].map((_, col) => (
+                    <motion.div
+                      key={`grid-${row}-${col}`}
+                      className="absolute border border-purple-500/10"
+                      style={{ 
+                        height: '100%', 
+                        width: '10%',
+                        left: `${col * 10}%`,
+                      }}
+                      animate={{
+                        opacity: [0.1, 0.2, 0.1],
+                        rotateX: [0, 5, 0],
+                        rotateY: [0, 10, 0],
+                      }}
+                      transition={{ 
+                        duration: 3 + (row + col) % 5,
+                        repeat: Infinity,
+                        ease: "easeInOut"
+                      }}
+                    />
+                  ))}
+                </div>
+              ))}
+            </div>
+          </div>
+          
           {/* Animated particles */}
           {[...Array(20)].map((_, i) => (
             <motion.div
@@ -193,7 +231,16 @@ const Home = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
           >
             <span className="text-white">Welcome to </span>
-            <span className="text-purple-400">OjDevelop Studio</span>
+            <span className="text-purple-400 relative inline-block">
+              OjDevelop Studio
+              {/* Underline animation */}
+              <motion.span 
+                className="absolute bottom-0 left-0 w-full h-1 bg-purple-400"
+                initial={{ scaleX: 0, originX: 0 }}
+                animate={{ scaleX: 1 }}
+                transition={{ duration: 1, delay: 1 }}
+              />
+            </span>
           </motion.h1>
           
           <motion.h2
@@ -300,84 +347,29 @@ const Home = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
             viewport={{ once: true }}
           >
-            <Card className="bg-gray-800 border-gray-700">
-              <CardHeader>
-                <Rocket className="h-12 w-12 text-purple-400 mb-4" />
-                <CardTitle className="text-xl text-purple-300">Innovation</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-gray-400">
-                  We continuously explore new technologies and techniques to create 
-                  unique gaming experiences that stand out in the market.
-                </p>
-              </CardContent>
-            </Card>
+            <AnimatedCard
+              icon={<Rocket className="h-12 w-12 text-purple-400 mb-4" />}
+              title="Innovation"
+              content="We continuously explore new technologies and techniques to create unique gaming experiences that stand out in the market."
+            />
             
-            <Card className="bg-gray-800 border-gray-700">
-              <CardHeader>
-                <Award className="h-12 w-12 text-purple-400 mb-4" />
-                <CardTitle className="text-xl text-purple-300">Quality</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-gray-400">
-                  We're committed to excellence in every aspect of our work, 
-                  from concept to deployment and beyond.
-                </p>
-              </CardContent>
-            </Card>
+            <AnimatedCard
+              icon={<Award className="h-12 w-12 text-purple-400 mb-4" />}
+              title="Quality"
+              content="We're committed to excellence in every aspect of our work, from concept to deployment and beyond."
+            />
             
-            <Card className="bg-gray-800 border-gray-700">
-              <CardHeader>
-                <Users className="h-12 w-12 text-purple-400 mb-4" />
-                <CardTitle className="text-xl text-purple-300">Collaboration</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-gray-400">
-                  We work closely with our clients, valuing transparent communication 
-                  and partnership throughout the development process.
-                </p>
-              </CardContent>
-            </Card>
+            <AnimatedCard
+              icon={<Users className="h-12 w-12 text-purple-400 mb-4" />}
+              title="Collaboration"
+              content="We work closely with our clients, valuing transparent communication and partnership throughout the development process."
+            />
           </motion.div>
         </div>
       </section>
       
-      {/* Skills Section */}
-      <section id="skills" className="py-24 px-4 bg-gray-850 bg-opacity-30">
-        <div className="container mx-auto">
-          <motion.div 
-            className="text-center mb-16"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-4xl font-bold mb-6 text-purple-400">Our Technology Stack</h2>
-            <p className="text-lg max-w-3xl mx-auto text-gray-300">
-              We leverage cutting-edge technologies and industry-standard tools to create exceptional gaming experiences.
-            </p>
-          </motion.div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8 max-w-4xl mx-auto">
-            {skills.map((skill, index) => (
-              <motion.div 
-                key={index} 
-                className="skill-item"
-                initial={{ x: index % 2 === 0 ? -30 : 30, opacity: 0 }}
-                whileInView={{ x: 0, opacity: 1 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                viewport={{ once: true }}
-              >
-                <div className="flex justify-between mb-2">
-                  <span className="text-lg">{skill.name}</span>
-                  <span className="text-sm text-purple-400">{skill.level}%</span>
-                </div>
-                <Progress value={skill.level} className="h-2 bg-gray-700" />
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* Skills Section - Using our new component */}
+      <SkillSection skills={skills} />
       
       {/* Services Section */}
       <section id="services" className="py-24 px-4">
@@ -397,76 +389,18 @@ const Home = () => {
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {services.map((service, index) => (
-              <motion.div
+              <AnimatedServiceCard
                 key={index}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                viewport={{ once: true }}
-              >
-                <Card className="bg-gray-800 border-gray-700 h-full hover:border-purple-500 transition-colors duration-300">
-                  <CardHeader className="pb-2">
-                    {service.icon}
-                    <CardTitle className="text-xl mt-4 text-purple-300">{service.title}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <CardDescription className="text-gray-400 text-base">
-                      {service.description}
-                    </CardDescription>
-                  </CardContent>
-                </Card>
-              </motion.div>
+                service={service}
+                index={index}
+              />
             ))}
           </div>
         </div>
       </section>
       
-      {/* Process Section */}
-      <section id="process" className="py-24 px-4 bg-gray-850 bg-opacity-30">
-        <div className="container mx-auto">
-          <motion.div 
-            className="text-center mb-16"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-4xl font-bold mb-6 text-purple-400">Our Development Process</h2>
-            <p className="text-lg max-w-3xl mx-auto text-gray-300">
-              We follow a structured approach to ensure quality, efficiency, and success for every project.
-            </p>
-          </motion.div>
-          
-          <div className="max-w-5xl mx-auto">
-            {process.map((step, index) => (
-              <motion.div 
-                key={index}
-                className="flex flex-col md:flex-row items-center mb-12 md:mb-8 relative"
-                initial={{ opacity: 0, x: index % 2 === 0 ? -30 : 30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.15 }}
-                viewport={{ once: true }}
-              >
-                {/* Timeline line */}
-                {index < process.length - 1 && (
-                  <div className="absolute top-24 md:top-12 left-[39px] md:left-[59px] w-1 h-[calc(100%+32px)] bg-gray-700 hidden md:block"></div>
-                )}
-                
-                {/* Step indicator */}
-                <div className="flex items-center justify-center w-20 h-20 rounded-full bg-gray-800 border-2 border-purple-500 text-white mb-4 md:mb-0 z-10">
-                  {step.icon}
-                </div>
-                
-                {/* Step content */}
-                <div className="md:ml-8 text-center md:text-left">
-                  <h3 className="text-xl font-semibold text-purple-300 mb-2">{step.title}</h3>
-                  <p className="text-gray-400">{step.description}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* Process Section - Using our new component */}
+      <ProcessSection process={process} />
       
       {/* Featured Projects Section */}
       <section id="projects" className="py-24 px-4">
@@ -482,52 +416,33 @@ const Home = () => {
             <p className="text-lg max-w-3xl mx-auto text-gray-300 mb-8">
               Explore some of our best work across different game categories.
             </p>
-            
+          </motion.div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+            {featuredProjects.map((project) => (
+              <FeaturedProjectCard key={project.id} project={project} />
+            ))}
+          </div>
+          
+          <motion.div
+            className="text-center"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            viewport={{ once: true }}
+          >
             <motion.div
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="mb-12"
             >
               <Button 
                 asChild
-                className="bg-purple-600 hover:bg-purple-700"
+                className="bg-purple-600 hover:bg-purple-700 px-6 py-3 text-lg"
               >
                 <Link to="/portfolio">View All Projects</Link>
               </Button>
             </motion.div>
           </motion.div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {featuredProjects.map((project, index) => (
-              <motion.div
-                key={project.id}
-                whileHover={{ y: -10 }}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-              >
-                <Card className="h-full overflow-hidden flex flex-col bg-gray-800 border-gray-700 hover:border-purple-500 transition-all duration-300">
-                  <div className="relative h-48 w-full overflow-hidden">
-                    <img 
-                      src={project.image} 
-                      alt={project.title} 
-                      className="w-full h-full object-cover transition-transform duration-700 hover:scale-110"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent opacity-60" />
-                    <span className="absolute top-2 right-2 bg-purple-600 text-white text-xs px-2 py-1 rounded-full">
-                      {project.category}
-                    </span>
-                  </div>
-                  
-                  <CardHeader>
-                    <CardTitle className="text-xl text-purple-400">{project.title}</CardTitle>
-                    <CardDescription>{project.description}</CardDescription>
-                  </CardHeader>
-                </Card>
-              </motion.div>
-            ))}
-          </div>
         </div>
       </section>
       
@@ -549,32 +464,11 @@ const Home = () => {
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {testimonials.map((testimonial, index) => (
-              <motion.div
+              <AnimatedTestimonialCard
                 key={testimonial.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.15 }}
-              >
-                <Card className="bg-gray-800 border-gray-700 hover:border-purple-500 transition-colors duration-300">
-                  <CardContent className="pt-6">
-                    <div className="flex items-center mb-4">
-                      <div className="w-10 h-10 rounded-full overflow-hidden mr-3">
-                        <img 
-                          src={testimonial.avatar} 
-                          alt={testimonial.name}
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                      <div>
-                        <h4 className="text-lg font-medium text-purple-300">{testimonial.name}</h4>
-                        <p className="text-sm text-gray-400">{testimonial.role}</p>
-                      </div>
-                    </div>
-                    <p className="italic text-gray-300">"{testimonial.content}"</p>
-                  </CardContent>
-                </Card>
-              </motion.div>
+                testimonial={testimonial}
+                index={index}
+              />
             ))}
           </div>
         </div>
@@ -588,47 +482,225 @@ const Home = () => {
           style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7)' }}
         />
         
+        {/* Interactive particles */}
+        <div className="absolute inset-0 z-0">
+          {[...Array(20)].map((_, i) => (
+            <motion.div
+              key={`particle-${i}`}
+              className="absolute w-2 h-2 rounded-full bg-purple-500/40"
+              style={{
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+              }}
+              animate={{
+                x: [
+                  Math.random() * 100 - 50,
+                  Math.random() * 100 - 50,
+                  Math.random() * 100 - 50,
+                ],
+                y: [
+                  Math.random() * 100 - 50,
+                  Math.random() * 100 - 50,
+                  Math.random() * 100 - 50,
+                ],
+                scale: [0.8, 1.2, 0.8],
+                opacity: [0.3, 0.8, 0.3],
+              }}
+              transition={{
+                duration: 10 + Math.random() * 20,
+                repeat: Infinity,
+                ease: "linear",
+              }}
+            />
+          ))}
+        </div>
+        
         <div className="container mx-auto relative z-10">
           <motion.div 
-            className="max-w-4xl mx-auto text-center bg-gray-800/80 backdrop-blur-sm p-12 rounded-2xl border border-gray-700"
+            className="max-w-4xl mx-auto text-center bg-gray-800/80 backdrop-blur-sm p-12 rounded-2xl border border-gray-700 relative overflow-hidden"
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-4xl font-bold mb-6 text-purple-400">Ready to Bring Your Game to Life?</h2>
-            <p className="text-lg mb-8 text-gray-300">
-              Let's collaborate to create an exceptional gaming experience that captivates and engages players.
-              Our team is ready to turn your vision into reality.
-            </p>
+            {/* Animated gradient border */}
             <motion.div
-              className="flex flex-wrap gap-4 justify-center"
-            >
-              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                <Button 
-                  asChild
-                  className="bg-purple-600 hover:bg-purple-700 text-lg px-6 py-6 h-auto"
-                >
-                  <Link to="/portfolio">View Our Work</Link>
-                </Button>
+              className="absolute inset-0 bg-gradient-to-r from-purple-600 to-blue-600 z-0 opacity-30"
+              animate={{
+                backgroundPosition: ['0% 0%', '100% 100%'],
+              }}
+              transition={{
+                duration: 3,
+                ease: "linear",
+                repeat: Infinity,
+                repeatType: "mirror",
+              }}
+              style={{ 
+                backgroundSize: '200% 200%',
+              }}
+            />
+            
+            <div className="relative z-10">
+              <h2 className="text-4xl font-bold mb-6 text-purple-400">Ready to Bring Your Game to Life?</h2>
+              <p className="text-lg mb-8 text-gray-300">
+                Let's collaborate to create an exceptional gaming experience that captivates and engages players.
+                Our team is ready to turn your vision into reality.
+              </p>
+              <motion.div
+                className="flex flex-wrap gap-4 justify-center"
+              >
+                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                  <Button 
+                    asChild
+                    className="bg-purple-600 hover:bg-purple-700 text-lg px-6 py-6 h-auto"
+                  >
+                    <Link to="/portfolio">View Our Work</Link>
+                  </Button>
+                </motion.div>
+                
+                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                  <Button 
+                    asChild
+                    variant="outline" 
+                    className="text-lg border-purple-500 text-purple-400 hover:bg-purple-500/20 px-6 py-6 h-auto"
+                  >
+                    <Link to="/contact">Contact Us</Link>
+                  </Button>
+                </motion.div>
               </motion.div>
-              
-              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                <Button 
-                  asChild
-                  variant="outline" 
-                  className="text-lg border-purple-500 text-purple-400 hover:bg-purple-500/20 px-6 py-6 h-auto"
-                >
-                  <Link to="/contact">Contact Us</Link>
-                </Button>
-              </motion.div>
-            </motion.div>
+            </div>
           </motion.div>
         </div>
       </section>
       
       <Footer />
     </div>
+  );
+};
+
+// Animated Card Component
+const AnimatedCard = ({ icon, title, content }: { icon: React.ReactNode, title: string, content: string }) => {
+  const [isHovered, setIsHovered] = useState(false);
+  
+  return (
+    <motion.div
+      onHoverStart={() => setIsHovered(true)}
+      onHoverEnd={() => setIsHovered(false)}
+      className="relative"
+      whileHover={{ y: -10 }}
+    >
+      {/* Glowing border */}
+      <motion.div
+        className="absolute -inset-0.5 rounded-lg bg-gradient-to-r from-purple-600 to-blue-600 opacity-0"
+        animate={{ opacity: isHovered ? 1 : 0 }}
+        transition={{ duration: 0.3 }}
+      />
+      
+      <Card className="bg-gray-800 border-gray-700 h-full relative z-10">
+        <CardHeader>
+          {icon}
+          <CardTitle className="text-xl text-purple-300">{title}</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="text-gray-400">
+            {content}
+          </p>
+        </CardContent>
+      </Card>
+    </motion.div>
+  );
+};
+
+// Animated Service Card Component
+const AnimatedServiceCard = ({ service, index }: { service: any, index: number }) => {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: index * 0.1 }}
+      viewport={{ once: true }}
+      whileHover={{ y: -10 }}
+      className="relative group"
+    >
+      {/* Animated gradient border */}
+      <motion.div
+        className="absolute -inset-1 rounded-lg bg-gradient-to-r from-purple-600/30 to-blue-600/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+        animate={{
+          backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
+        }}
+        transition={{
+          duration: 5,
+          ease: "easeInOut",
+          repeat: Infinity,
+          repeatType: "loop",
+        }}
+        style={{ 
+          backgroundSize: '200% 200%', 
+          filter: 'blur(8px)', 
+        }}
+      />
+      
+      <Card className="bg-gray-800 border-gray-700 h-full hover:border-purple-500 transition-colors duration-300 z-10 relative">
+        <CardHeader className="pb-2">
+          {service.icon}
+          <CardTitle className="text-xl mt-4 text-purple-300">{service.title}</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <CardDescription className="text-gray-400 text-base">
+            {service.description}
+          </CardDescription>
+        </CardContent>
+      </Card>
+    </motion.div>
+  );
+};
+
+// Animated Testimonial Card Component
+const AnimatedTestimonialCard = ({ testimonial, index }: { testimonial: any, index: number }) => {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5, delay: index * 0.15 }}
+      className="relative group"
+    >
+      {/* Animated border */}
+      <motion.div
+        className="absolute -inset-1 rounded-lg bg-gradient-to-r from-purple-600/30 to-blue-600/30 opacity-0 group-hover:opacity-100 blur-md -z-10"
+        animate={{
+          scale: [1, 1.05, 1],
+          opacity: [0, 0.5, 0],
+        }}
+        transition={{
+          duration: 2,
+          repeat: Infinity,
+          repeatType: "loop",
+        }}
+      />
+      
+      <Card className="bg-gray-800 border-gray-700 hover:border-purple-500 transition-colors duration-300">
+        <CardContent className="pt-6">
+          <div className="flex items-center mb-4">
+            <motion.div 
+              className="w-10 h-10 rounded-full overflow-hidden mr-3 ring-2 ring-purple-500/50"
+              whileHover={{ scale: 1.1 }}
+            >
+              <img 
+                src={testimonial.avatar} 
+                alt={testimonial.name}
+                className="w-full h-full object-cover"
+              />
+            </motion.div>
+            <div>
+              <h4 className="text-lg font-medium text-purple-300">{testimonial.name}</h4>
+              <p className="text-sm text-gray-400">{testimonial.role}</p>
+            </div>
+          </div>
+          <p className="italic text-gray-300">"{testimonial.content}"</p>
+        </CardContent>
+      </Card>
+    </motion.div>
   );
 };
 

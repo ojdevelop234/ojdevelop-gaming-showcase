@@ -1,9 +1,8 @@
 
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
 import { Github } from "lucide-react";
-import { Discord, Fiverr } from "@/components/icons/CustomIcons";
+import { Discord, Fiverr, StudioLogo } from "@/components/icons/CustomIcons";
 
 const Footer = () => {
   return (
@@ -12,7 +11,15 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Studio Info */}
           <div className="space-y-4">
-            <h3 className="text-xl font-bold text-purple-400">OjDevelop Studio</h3>
+            <div className="flex items-center gap-3">
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+              >
+                <StudioLogo className="text-purple-400" size={28} />
+              </motion.div>
+              <h3 className="text-xl font-bold text-purple-400">OjDevelop Studio</h3>
+            </div>
             <p className="max-w-xs">
               Creating immersive gaming experiences and pushing the boundaries of interactive entertainment.
             </p>
@@ -50,31 +57,10 @@ const Footer = () => {
             </p>
             
             {/* Social Media */}
-            <div className="flex space-x-4 pt-2">
-              <motion.a 
-                href="https://discord.com/" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                whileHover={{ scale: 1.2 }}
-              >
-                <Discord className="text-[#5865F2] hover:opacity-80 transition-opacity" />
-              </motion.a>
-              <motion.a 
-                href="https://github.com/" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                whileHover={{ scale: 1.2 }}
-              >
-                <Github className="text-[#f5f5f5] hover:opacity-80 transition-opacity" />
-              </motion.a>
-              <motion.a 
-                href="https://fiverr.com/" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                whileHover={{ scale: 1.2 }}
-              >
-                <Fiverr className="text-[#1DBF73] hover:opacity-80 transition-opacity" />
-              </motion.a>
+            <div className="flex space-x-6 pt-4">
+              <SocialIcon href="https://discord.com/" icon={<Discord />} color="#5865F2" />
+              <SocialIcon href="https://github.com/" icon={<Github />} color="#f5f5f5" />
+              <SocialIcon href="https://fiverr.com/" icon={<Fiverr />} color="#1DBF73" />
             </div>
           </div>
         </div>
@@ -87,5 +73,33 @@ const Footer = () => {
     </footer>
   );
 };
+
+const SocialIcon = ({ href, icon, color }: { href: string; icon: React.ReactNode; color: string }) => (
+  <motion.a
+    href={href}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="relative group"
+    whileHover={{ scale: 1.2 }}
+    style={{ color }}
+  >
+    {/* Pulsing circle */}
+    <motion.div
+      className="absolute inset-0 rounded-full -z-10 opacity-0 group-hover:opacity-100"
+      style={{ backgroundColor: `${color}30` }}
+      animate={{
+        scale: [1, 1.5, 1],
+      }}
+      transition={{
+        duration: 1.5,
+        repeat: Infinity,
+        ease: "easeInOut",
+      }}
+    />
+    
+    {/* Icon */}
+    {icon}
+  </motion.a>
+);
 
 export default Footer;

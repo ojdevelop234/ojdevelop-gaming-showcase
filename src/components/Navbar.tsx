@@ -2,8 +2,8 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
+import { StudioLogo } from "./icons/CustomIcons";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -28,6 +28,9 @@ const Navbar = () => {
     setIsOpen(false);
   }, [location]);
 
+  // Logo animation variants
+  const logoTextChars = "OjDevelop Studio".split("");
+  
   return (
     <motion.nav 
       className={`fixed top-0 w-full z-50 transition-all duration-300 ${
@@ -40,19 +43,53 @@ const Navbar = () => {
       <div className="container mx-auto px-4 flex justify-between items-center">
         <Link to="/" className="flex items-center gap-2">
           <motion.div 
-            className="text-2xl font-bold text-purple-400"
+            className="relative flex items-center"
             whileHover={{ scale: 1.05 }}
           >
-            OjDevelop Studio
+            {/* Animated logo icon */}
+            <motion.div
+              initial={{ rotate: 0 }}
+              animate={{ rotate: 360 }}
+              transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+              className="text-purple-400 mr-2"
+            >
+              <StudioLogo size={28} />
+            </motion.div>
+            
+            {/* Animated text */}
+            <div className="flex items-center text-2xl font-bold">
+              {logoTextChars.map((char, i) => (
+                <motion.span
+                  key={i}
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ 
+                    delay: i * 0.05,
+                    duration: 0.3,
+                    ease: "easeOut" 
+                  }}
+                  className={char === " " ? "mr-2" : "text-purple-400"}
+                >
+                  {char}
+                </motion.span>
+              ))}
+            </div>
+            
+            {/* Glowing effect */}
+            <motion.div 
+              className="absolute -inset-1 rounded-full bg-purple-500/20 blur-lg -z-10"
+              animate={{ 
+                opacity: [0.4, 0.8, 0.4],
+                scale: [0.9, 1.05, 0.9]
+              }}
+              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+            />
           </motion.div>
         </Link>
         
         {/* Desktop Menu */}
         <div className="hidden md:flex items-center space-x-8">
           <NavLinks />
-          <Button asChild className="bg-purple-600 hover:bg-purple-700">
-            <Link to="/contact">Get In Touch</Link>
-          </Button>
         </div>
         
         {/* Mobile Menu Button */}
@@ -77,9 +114,6 @@ const Navbar = () => {
         >
           <div className="flex flex-col items-center py-4 space-y-4">
             <NavLinks mobile />
-            <Button asChild className="bg-purple-600 hover:bg-purple-700 w-full max-w-xs">
-              <Link to="/contact">Get In Touch</Link>
-            </Button>
           </div>
         </motion.div>
       )}

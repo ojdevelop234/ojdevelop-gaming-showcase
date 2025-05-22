@@ -52,3 +52,30 @@ export const Fiverr = forwardRef<SVGSVGElement, LucideProps>((props, ref) => {
 });
 
 Fiverr.displayName = "Fiverr";
+
+// Add new studio logo icon
+export const StudioLogo = forwardRef<SVGSVGElement, LucideProps>((props, ref) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      ref={ref}
+      {...props}
+    >
+      <path d="M12 3v19" />
+      <path d="M5 8h14" />
+      <path d="M15 5h-3v16h3a8 8 0 0 0 0-16" />
+      <circle cx="7" cy="16" r="3" />
+      <path d="M5 13h7" />
+    </svg>
+  );
+});
+
+StudioLogo.displayName = "StudioLogo";
