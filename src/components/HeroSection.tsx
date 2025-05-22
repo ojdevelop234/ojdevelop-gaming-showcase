@@ -1,9 +1,20 @@
 
-import { motion } from "framer-motion";
+import { useState } from "react";
+import { motion, useMotionValue, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Code } from "lucide-react";
 
 const HeroSection = () => {
+  const [hovered, setHovered] = useState<string | null>(null);
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const { left, top } = e.currentTarget.getBoundingClientRect();
+    mouseX.set(e.clientX - left);
+    mouseY.set(e.clientY - top);
+  };
+
   const handleScrollToProjects = () => {
     document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
   };
@@ -12,10 +23,20 @@ const HeroSection = () => {
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background image with overlay */}
       <div 
-        className="absolute inset-0 bg-cover bg-center z-0" 
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat z-0" 
         style={{
-          backgroundImage: 'url(https://images.unsplash.com/photo-1531297484001-80022131f5a1)',
-          filter: 'brightness(0.3)'
+          backgroundImage: 'url(/lovable-uploads/ffeffba4-c81d-4d58-81da-0f9ed94832eb.png)',
+          filter: 'brightness(0.2) saturate(1.2)',
+          backgroundPosition: 'center top'
+        }}
+      />
+      
+      {/* Grain texture */}
+      <div 
+        className="absolute inset-0 z-0 opacity-20"
+        style={{
+          backgroundImage: "url('data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E')",
+          mixBlendMode: "overlay"
         }}
       />
       
@@ -47,7 +68,10 @@ const HeroSection = () => {
       </div>
       
       {/* Content */}
-      <div className="relative z-10 text-center px-4 max-w-4xl">
+      <div 
+        className="relative z-10 text-center px-4 max-w-4xl"
+        onMouseMove={handleMouseMove}
+      >
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -55,7 +79,15 @@ const HeroSection = () => {
         >
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6">
             <span className="text-white">Hi, I'm </span>
-            <span className="text-purple-400">Alex Gamer</span>
+            <motion.span 
+              className="text-purple-400 inline-block"
+              whileHover={{ 
+                color: "#c4b5fd",
+                textShadow: "0 0 15px rgba(196, 181, 253, 0.5)" 
+              }}
+            >
+              Alex Gamer
+            </motion.span>
           </h1>
         </motion.div>
         
@@ -83,24 +115,69 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.8 }}
-          className="flex flex-wrap gap-4 justify-center"
+          className="flex flex-wrap gap-6 justify-center"
         >
-          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+          <motion.div 
+            whileHover={{ scale: 1.05 }} 
+            whileTap={{ scale: 0.95 }}
+            onHoverStart={() => setHovered("primary")}
+            onHoverEnd={() => setHovered(null)}
+          >
             <Button 
               onClick={handleScrollToProjects}
-              className="bg-purple-600 hover:bg-purple-700 text-lg px-6 py-6 h-auto"
+              size="sm"
+              className="relative overflow-hidden bg-purple-600 hover:bg-purple-700 border-2 border-transparent group px-6 py-2"
             >
-              View My Work
+              {/* Button glint effect */}
+              {hovered === "primary" && (
+                <motion.span 
+                  className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white to-transparent opacity-20" 
+                  initial={{ x: "-100%" }}
+                  animate={{ x: "100%" }}
+                  transition={{ duration: 0.8 }}
+                />
+              )}
+              
+              <span className="relative z-10 inline-flex items-center">
+                <span>View My Work</span>
+                <motion.span 
+                  initial={{ x: -5, opacity: 0 }}
+                  animate={hovered === "primary" ? { x: 5, opacity: 1 } : { x: -5, opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="ml-1"
+                >
+                  →
+                </motion.span>
+              </span>
             </Button>
           </motion.div>
           
-          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+          <motion.div 
+            whileHover={{ scale: 1.05 }} 
+            whileTap={{ scale: 0.95 }}
+            onHoverStart={() => setHovered("secondary")}
+            onHoverEnd={() => setHovered(null)}
+          >
             <Button 
               variant="outline" 
-              className="text-lg border-purple-500 text-purple-400 hover:bg-purple-500/20 px-6 py-6 h-auto"
+              size="sm"
+              className="relative overflow-hidden border-2 border-purple-500 text-purple-400 hover:bg-purple-500/20 px-6 py-2"
               onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
             >
-              <Code className="mr-2" /> Get In Touch
+              {/* Button glint effect */}
+              {hovered === "secondary" && (
+                <motion.span 
+                  className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-purple-300 to-transparent opacity-20" 
+                  initial={{ x: "-100%" }}
+                  animate={{ x: "100%" }}
+                  transition={{ duration: 0.8 }}
+                />
+              )}
+              
+              <span className="relative z-10 inline-flex items-center">
+                <Code className="mr-2" size={18} />
+                <span>Get In Touch</span>
+              </span>
             </Button>
           </motion.div>
         </motion.div>

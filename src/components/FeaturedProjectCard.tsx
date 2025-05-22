@@ -1,7 +1,7 @@
 
-import { useState } from "react";
+import { useState, memo } from "react";
 import { motion } from "framer-motion";
-import { ExternalLink, Info } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
@@ -45,7 +45,8 @@ const FeaturedProjectCard = ({ project }: FeaturedProjectCardProps) => {
         <div className="relative h-48 overflow-hidden">
           <motion.img 
             src={project.image} 
-            alt={project.title} 
+            alt={project.title}
+            loading="lazy"
             className="w-full h-full object-cover"
             animate={{ scale: isHovered ? 1.1 : 1 }}
             transition={{ duration: 0.7 }}
@@ -91,7 +92,8 @@ const FeaturedProjectCard = ({ project }: FeaturedProjectCardProps) => {
           <div className="flex gap-3 mt-auto">
             <Button 
               variant="default" 
-              className="flex-1 bg-purple-600 hover:bg-purple-700"
+              size="sm"
+              className="flex-1 bg-purple-600 hover:bg-purple-700 transform transition-all duration-300 hover:scale-105 active:scale-95"
               onClick={() => window.open(project.demoUrl || "#", "_blank")}
             >
               <ExternalLink className="mr-2" size={16} /> Demo
@@ -99,10 +101,11 @@ const FeaturedProjectCard = ({ project }: FeaturedProjectCardProps) => {
             
             <Button 
               variant="outline" 
-              className="flex-1 border-gray-600 hover:bg-gray-700"
+              size="sm"
+              className="flex-1 border-purple-500/30 hover:bg-purple-500/20 text-purple-400 transform transition-all duration-300 hover:scale-105 active:scale-95"
               onClick={() => setIsDialogOpen(true)}
             >
-              <Info className="mr-2" size={16} /> Details
+              Details
             </Button>
           </div>
         </div>
@@ -121,6 +124,7 @@ const FeaturedProjectCard = ({ project }: FeaturedProjectCardProps) => {
               <img 
                 src={project.image} 
                 alt={project.title} 
+                loading="lazy"
                 className="w-full h-full object-cover"
               />
             </div>
@@ -149,7 +153,11 @@ const FeaturedProjectCard = ({ project }: FeaturedProjectCardProps) => {
             </div>
             
             <div className="flex justify-end">
-              <Button asChild className="bg-purple-600 hover:bg-purple-700">
+              <Button 
+                asChild 
+                size="sm"
+                className="bg-purple-600 hover:bg-purple-700 transform transition-all duration-300 hover:scale-105 active:scale-95"
+              >
                 <a href={project.demoUrl || "#"} target="_blank" rel="noopener noreferrer">
                   <ExternalLink className="mr-2" size={16} /> View Demo
                 </a>
@@ -162,4 +170,5 @@ const FeaturedProjectCard = ({ project }: FeaturedProjectCardProps) => {
   );
 };
 
-export default FeaturedProjectCard;
+// Using memo to prevent unnecessary re-renders
+export default memo(FeaturedProjectCard);

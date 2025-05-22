@@ -1,15 +1,18 @@
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense, lazy } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Code, Users, Award, Rocket, Layout, Gamepad2, Braces, Cpu, PenTool, CheckCircle2, ExternalLink, Info } from "lucide-react";
+import { Gamepad2, Layout, PenTool, Code, Cpu, Braces } from "lucide-react";
+import HeroSection from "@/components/HeroSection";
 import SkillSection from "@/components/SkillSection";
 import ProcessSection from "@/components/ProcessSection";
-import FeaturedProjectCard from "@/components/FeaturedProjectCard";
+import AboutSection from "@/components/AboutSection";
+import CallToAction from "@/components/CallToAction";
+
+// Lazy load components for better performance
+const FeaturedProjectCard = lazy(() => import("@/components/FeaturedProjectCard"));
 
 const Home = () => {
   const { scrollYProgress } = useScroll();
@@ -79,12 +82,12 @@ const Home = () => {
     {
       title: "Testing & QA",
       description: "Rigorous quality assurance to ensure a polished product.",
-      icon: <CheckCircle2 className="w-10 h-10 text-white" />
+      icon: <Gamepad2 className="w-10 h-10 text-white" />
     },
     {
       title: "Launch & Support",
       description: "Game release with continued support and updates.",
-      icon: <Rocket className="w-10 h-10 text-white" />
+      icon: <Cpu className="w-10 h-10 text-white" />
     }
   ];
   
@@ -151,224 +154,13 @@ const Home = () => {
     <div className="bg-gradient-to-b from-gray-900 to-gray-950 text-white min-h-screen">
       <Navbar />
       
-      {/* Hero Section */}
-      <section className="relative h-screen flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0">
-          <div 
-            className="absolute inset-0 bg-cover bg-center z-0" 
-            style={{
-              backgroundImage: 'url(https://images.unsplash.com/photo-1531297484001-80022131f5a1)',
-              filter: 'brightness(0.4)'
-            }}
-          />
-          
-          {/* Animated 3D grid */}
-          <div className="absolute inset-0 z-0 perspective-1000">
-            <div className="h-full w-full transform-style-3d">
-              {[...Array(10)].map((_, row) => (
-                <div key={`grid-row-${row}`} className="relative w-full" style={{ height: '10%' }}>
-                  {[...Array(10)].map((_, col) => (
-                    <motion.div
-                      key={`grid-${row}-${col}`}
-                      className="absolute border border-purple-500/10"
-                      style={{ 
-                        height: '100%', 
-                        width: '10%',
-                        left: `${col * 10}%`,
-                      }}
-                      animate={{
-                        opacity: [0.1, 0.2, 0.1],
-                        rotateX: [0, 5, 0],
-                        rotateY: [0, 10, 0],
-                      }}
-                      transition={{ 
-                        duration: 3 + (row + col) % 5,
-                        repeat: Infinity,
-                        ease: "easeInOut"
-                      }}
-                    />
-                  ))}
-                </div>
-              ))}
-            </div>
-          </div>
-          
-          {/* Animated particles */}
-          {[...Array(20)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute text-purple-500/30 text-xs md:text-sm font-mono"
-              initial={{ 
-                x: Math.random() * 100 - 50 + "%", 
-                y: Math.random() * 100 + "%",
-                opacity: 0.1
-              }}
-              animate={{ 
-                y: [Math.random() * 100 + "%", Math.random() * 100 + "%"],
-                opacity: [0.1, 0.3, 0.1],
-                scale: [1, 1.2, 1]
-              }}
-              transition={{
-                duration: Math.random() * 10 + 10,
-                repeat: Infinity,
-                repeatType: "reverse"
-              }}
-            >
-              {["01", "10", "</>", "[]", "&&", "||", "=>", "class", "const", "function"][i % 10]}
-            </motion.div>
-          ))}
-        </div>
-        
-        {/* Hero Content */}
-        <motion.div
-          className="relative z-10 text-center px-4 max-w-5xl"
-          style={{ opacity, y }}
-        >
-          <motion.h1 
-            className="text-5xl md:text-7xl font-bold mb-6"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          >
-            <span className="text-white">Welcome to </span>
-            <span className="text-purple-400 relative inline-block">
-              OjDevelop Studio
-              {/* Underline animation */}
-              <motion.span 
-                className="absolute bottom-0 left-0 w-full h-1 bg-purple-400"
-                initial={{ scaleX: 0, originX: 0 }}
-                animate={{ scaleX: 1 }}
-                transition={{ duration: 1, delay: 1 }}
-              />
-            </span>
-          </motion.h1>
-          
-          <motion.h2
-            className="text-xl md:text-3xl font-light mb-8 text-gray-300"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-          >
-            Crafting Immersive Digital Worlds & Gaming Experiences
-          </motion.h2>
-          
-          <motion.p
-            className="text-lg md:text-xl mb-10 max-w-3xl mx-auto text-gray-400"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-          >
-            We're a passionate team of game developers dedicated to creating extraordinary 
-            interactive experiences that captivate and inspire players worldwide.
-          </motion.p>
-          
-          <motion.div
-            className="flex flex-wrap gap-4 justify-center"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.8 }}
-          >
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <Button 
-                asChild
-                className="bg-purple-600 hover:bg-purple-700 text-lg px-6 py-6 h-auto"
-              >
-                <Link to="/portfolio">View Our Work</Link>
-              </Button>
-            </motion.div>
-            
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <Button 
-                asChild
-                variant="outline" 
-                className="text-lg border-purple-500 text-purple-400 hover:bg-purple-500/20 px-6 py-6 h-auto"
-              >
-                <Link to="/contact">Get In Touch</Link>
-              </Button>
-            </motion.div>
-          </motion.div>
-        </motion.div>
-
-        {/* Scroll indicator */}
-        <motion.div 
-          className="absolute bottom-10 left-1/2 transform -translate-x-1/2"
-          animate={{ y: [0, 10, 0] }}
-          transition={{ duration: 1.5, repeat: Infinity }}
-        >
-          <div className="w-8 h-12 rounded-full border-2 border-purple-400 flex justify-center">
-            <motion.div 
-              className="w-2 h-3 bg-purple-400 rounded-full mt-2"
-              animate={{ y: [0, 16, 0] }}
-              transition={{ duration: 1.5, repeat: Infinity }}
-            />
-          </div>
-        </motion.div>
-      </section>
+      {/* Hero Section with uploaded image */}
+      <HeroSection />
       
-      {/* About Section */}
-      <section id="about" className="py-24 px-4">
-        <div className="container mx-auto">
-          <motion.div 
-            className="max-w-4xl mx-auto text-center mb-16"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-4xl font-bold mb-6 text-purple-400">About OjDevelop Studio</h2>
-            <p className="text-lg mb-8 text-gray-300">
-              Founded in 2020, OjDevelop Studio is a creative powerhouse of designers, developers, 
-              and artists dedicated to crafting exceptional gaming experiences. We combine technical 
-              expertise with artistic vision to create games that push boundaries and captivate players.
-            </p>
-            <p className="text-lg mb-8 text-gray-300">
-              Our team brings together decades of combined experience in game development, 
-              with expertise spanning multiple platforms, genres, and technologies. 
-              We're passionate about innovation, quality, and delivering experiences that leave 
-              a lasting impression.
-            </p>
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Button 
-                asChild
-                className="bg-purple-600 hover:bg-purple-700"
-              >
-                <Link to="/portfolio">Explore Our Portfolio</Link>
-              </Button>
-            </motion.div>
-          </motion.div>
-          
-          <motion.div 
-            className="grid grid-cols-1 md:grid-cols-3 gap-8"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            viewport={{ once: true }}
-          >
-            <AnimatedCard
-              icon={<Rocket className="h-12 w-12 text-purple-400 mb-4" />}
-              title="Innovation"
-              content="We continuously explore new technologies and techniques to create unique gaming experiences that stand out in the market."
-            />
-            
-            <AnimatedCard
-              icon={<Award className="h-12 w-12 text-purple-400 mb-4" />}
-              title="Quality"
-              content="We're committed to excellence in every aspect of our work, from concept to deployment and beyond."
-            />
-            
-            <AnimatedCard
-              icon={<Users className="h-12 w-12 text-purple-400 mb-4" />}
-              title="Collaboration"
-              content="We work closely with our clients, valuing transparent communication and partnership throughout the development process."
-            />
-          </motion.div>
-        </div>
-      </section>
+      {/* About Section - New component with timeline animation */}
+      <AboutSection />
       
-      {/* Skills Section - Using our new component */}
+      {/* Skills Section */}
       <SkillSection skills={skills} />
       
       {/* Services Section */}
@@ -399,10 +191,10 @@ const Home = () => {
         </div>
       </section>
       
-      {/* Process Section - Using our new component */}
+      {/* Process Section */}
       <ProcessSection process={process} />
       
-      {/* Featured Projects Section */}
+      {/* Featured Projects Section - Fixed performance issues */}
       <section id="projects" className="py-24 px-4">
         <div className="container mx-auto">
           <motion.div 
@@ -419,9 +211,11 @@ const Home = () => {
           </motion.div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
-            {featuredProjects.map((project) => (
-              <FeaturedProjectCard key={project.id} project={project} />
-            ))}
+            <Suspense fallback={<div className="h-80 bg-gray-800 animate-pulse rounded-lg col-span-full"></div>}>
+              {featuredProjects.map((project) => (
+                <FeaturedProjectCard key={project.id} project={project} />
+              ))}
+            </Suspense>
           </div>
           
           <motion.div
@@ -431,17 +225,16 @@ const Home = () => {
             transition={{ duration: 0.8, delay: 0.4 }}
             viewport={{ once: true }}
           >
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Button 
-                asChild
-                className="bg-purple-600 hover:bg-purple-700 px-6 py-3 text-lg"
+            <Link to="/portfolio" className="inline-block">
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="bg-purple-600 hover:bg-purple-700 px-6 py-2 text-white rounded-md font-medium text-sm
+                transform transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/20"
               >
-                <Link to="/portfolio">View All Projects</Link>
-              </Button>
-            </motion.div>
+                View All Projects
+              </motion.div>
+            </Link>
           </motion.div>
         </div>
       </section>
@@ -474,152 +267,26 @@ const Home = () => {
         </div>
       </section>
       
-      {/* CTA Section */}
-      <section id="cta" className="py-24 px-4 relative">
-        {/* Background */}
-        <div 
-          className="absolute inset-0 bg-cover bg-center bg-fixed opacity-20 z-0" 
-          style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7)' }}
-        />
-        
-        {/* Interactive particles */}
-        <div className="absolute inset-0 z-0">
-          {[...Array(20)].map((_, i) => (
-            <motion.div
-              key={`particle-${i}`}
-              className="absolute w-2 h-2 rounded-full bg-purple-500/40"
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-              }}
-              animate={{
-                x: [
-                  Math.random() * 100 - 50,
-                  Math.random() * 100 - 50,
-                  Math.random() * 100 - 50,
-                ],
-                y: [
-                  Math.random() * 100 - 50,
-                  Math.random() * 100 - 50,
-                  Math.random() * 100 - 50,
-                ],
-                scale: [0.8, 1.2, 0.8],
-                opacity: [0.3, 0.8, 0.3],
-              }}
-              transition={{
-                duration: 10 + Math.random() * 20,
-                repeat: Infinity,
-                ease: "linear",
-              }}
-            />
-          ))}
-        </div>
-        
-        <div className="container mx-auto relative z-10">
-          <motion.div 
-            className="max-w-4xl mx-auto text-center bg-gray-800/80 backdrop-blur-sm p-12 rounded-2xl border border-gray-700 relative overflow-hidden"
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            {/* Animated gradient border */}
-            <motion.div
-              className="absolute inset-0 bg-gradient-to-r from-purple-600 to-blue-600 z-0 opacity-30"
-              animate={{
-                backgroundPosition: ['0% 0%', '100% 100%'],
-              }}
-              transition={{
-                duration: 3,
-                ease: "linear",
-                repeat: Infinity,
-                repeatType: "mirror",
-              }}
-              style={{ 
-                backgroundSize: '200% 200%',
-              }}
-            />
-            
-            <div className="relative z-10">
-              <h2 className="text-4xl font-bold mb-6 text-purple-400">Ready to Bring Your Game to Life?</h2>
-              <p className="text-lg mb-8 text-gray-300">
-                Let's collaborate to create an exceptional gaming experience that captivates and engages players.
-                Our team is ready to turn your vision into reality.
-              </p>
-              <motion.div
-                className="flex flex-wrap gap-4 justify-center"
-              >
-                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                  <Button 
-                    asChild
-                    className="bg-purple-600 hover:bg-purple-700 text-lg px-6 py-6 h-auto"
-                  >
-                    <Link to="/portfolio">View Our Work</Link>
-                  </Button>
-                </motion.div>
-                
-                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                  <Button 
-                    asChild
-                    variant="outline" 
-                    className="text-lg border-purple-500 text-purple-400 hover:bg-purple-500/20 px-6 py-6 h-auto"
-                  >
-                    <Link to="/contact">Contact Us</Link>
-                  </Button>
-                </motion.div>
-              </motion.div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
+      {/* CTA Section - New enhanced component */}
+      <CallToAction />
       
       <Footer />
     </div>
   );
 };
 
-// Animated Card Component
-const AnimatedCard = ({ icon, title, content }: { icon: React.ReactNode, title: string, content: string }) => {
-  const [isHovered, setIsHovered] = useState(false);
-  
-  return (
-    <motion.div
-      onHoverStart={() => setIsHovered(true)}
-      onHoverEnd={() => setIsHovered(false)}
-      className="relative"
-      whileHover={{ y: -10 }}
-    >
-      {/* Glowing border */}
-      <motion.div
-        className="absolute -inset-0.5 rounded-lg bg-gradient-to-r from-purple-600 to-blue-600 opacity-0"
-        animate={{ opacity: isHovered ? 1 : 0 }}
-        transition={{ duration: 0.3 }}
-      />
-      
-      <Card className="bg-gray-800 border-gray-700 h-full relative z-10">
-        <CardHeader>
-          {icon}
-          <CardTitle className="text-xl text-purple-300">{title}</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p className="text-gray-400">
-            {content}
-          </p>
-        </CardContent>
-      </Card>
-    </motion.div>
-  );
-};
-
 // Animated Service Card Component
 const AnimatedServiceCard = ({ service, index }: { service: any, index: number }) => {
+  const [isHovered, setIsHovered] = useState(false);
+  
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
       viewport={{ once: true }}
-      whileHover={{ y: -10 }}
+      onHoverStart={() => setIsHovered(true)}
+      onHoverEnd={() => setIsHovered(false)}
       className="relative group"
     >
       {/* Animated gradient border */}
@@ -640,17 +307,29 @@ const AnimatedServiceCard = ({ service, index }: { service: any, index: number }
         }}
       />
       
-      <Card className="bg-gray-800 border-gray-700 h-full hover:border-purple-500 transition-colors duration-300 z-10 relative">
-        <CardHeader className="pb-2">
+      <div className="bg-gray-800 border-gray-700 h-full hover:border-purple-500 transition-colors duration-300 z-10 relative p-6 rounded-lg">
+        <div className="pb-2">
           {service.icon}
-          <CardTitle className="text-xl mt-4 text-purple-300">{service.title}</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <CardDescription className="text-gray-400 text-base">
-            {service.description}
-          </CardDescription>
-        </CardContent>
-      </Card>
+          <h3 className="text-xl mt-4 text-purple-300 font-semibold">{service.title}</h3>
+        </div>
+        <div>
+          <p className="text-gray-400 text-base">{service.description}</p>
+        </div>
+        
+        {/* Animated corner accent */}
+        <motion.div 
+          className="absolute bottom-0 right-0 w-12 h-12 pointer-events-none"
+          animate={{ 
+            rotate: isHovered ? 90 : 0,
+            opacity: isHovered ? 1 : 0.5,
+          }}
+          transition={{ duration: 0.3 }}
+        >
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 3L3 12H7V21H17V12H21L12 3Z" stroke="#a78bfa" strokeWidth="1" strokeOpacity="0.5" />
+          </svg>
+        </motion.div>
+      </div>
     </motion.div>
   );
 };
@@ -664,6 +343,7 @@ const AnimatedTestimonialCard = ({ testimonial, index }: { testimonial: any, ind
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay: index * 0.15 }}
       className="relative group"
+      whileHover={{ y: -10 }}
     >
       {/* Animated border */}
       <motion.div
@@ -679,8 +359,8 @@ const AnimatedTestimonialCard = ({ testimonial, index }: { testimonial: any, ind
         }}
       />
       
-      <Card className="bg-gray-800 border-gray-700 hover:border-purple-500 transition-colors duration-300">
-        <CardContent className="pt-6">
+      <div className="bg-gray-800 border-gray-700 hover:border-purple-500 transition-colors duration-300 p-6 rounded-lg">
+        <div className="pt-2">
           <div className="flex items-center mb-4">
             <motion.div 
               className="w-10 h-10 rounded-full overflow-hidden mr-3 ring-2 ring-purple-500/50"
@@ -689,6 +369,7 @@ const AnimatedTestimonialCard = ({ testimonial, index }: { testimonial: any, ind
               <img 
                 src={testimonial.avatar} 
                 alt={testimonial.name}
+                loading="lazy"
                 className="w-full h-full object-cover"
               />
             </motion.div>
@@ -698,8 +379,8 @@ const AnimatedTestimonialCard = ({ testimonial, index }: { testimonial: any, ind
             </div>
           </div>
           <p className="italic text-gray-300">"{testimonial.content}"</p>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </motion.div>
   );
 };
