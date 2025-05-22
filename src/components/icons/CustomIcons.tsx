@@ -1,7 +1,8 @@
 
-import { LucideIcon } from "lucide-react";
+import React, { forwardRef } from "react";
+import { LucideProps } from "lucide-react";
 
-export const Discord: LucideIcon = (props) => {
+export const Discord = forwardRef<SVGSVGElement, LucideProps>((props, ref) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -13,6 +14,7 @@ export const Discord: LucideIcon = (props) => {
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
+      ref={ref}
       {...props}
     >
       <path d="M9 12h6" />
@@ -21,9 +23,11 @@ export const Discord: LucideIcon = (props) => {
       <path d="M16 18c.5 0 1.5-.8 2.4-2.5 1-1.8 1-5.7-1-7.5-.6-.7-1.7-.5-2.4-.7" />
     </svg>
   );
-};
+});
 
-export const Fiverr: LucideIcon = (props) => {
+Discord.displayName = "Discord";
+
+export const Fiverr = forwardRef<SVGSVGElement, LucideProps>((props, ref) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -35,6 +39,7 @@ export const Fiverr: LucideIcon = (props) => {
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
+      ref={ref}
       {...props}
     >
       <path d="M16 4H9a6 6 0 1 0 0 12h7v4" />
@@ -44,4 +49,6 @@ export const Fiverr: LucideIcon = (props) => {
       <circle cx="9" cy="10" r="2" />
     </svg>
   );
-};
+});
+
+Fiverr.displayName = "Fiverr";
