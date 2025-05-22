@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Link } from "react-router-dom";
@@ -503,7 +502,6 @@ const Home = () => {
               <motion.div
                 key={project.id}
                 whileHover={{ y: -10 }}
-                transition={{ duration: 0.3 }}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}

@@ -2,7 +2,8 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Discord, Github, Fiverr } from "lucide-react";
+import { Github } from "lucide-react";
+import { Discord, Fiverr } from "@/components/icons/CustomIcons";
 
 const Footer = () => {
   return (
