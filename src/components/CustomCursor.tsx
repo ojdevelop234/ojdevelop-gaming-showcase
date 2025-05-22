@@ -32,14 +32,14 @@ const CustomCursor = () => {
   return (
     <>
       {/* Hide default cursor */}
-      <style jsx global>{`
+      <style dangerouslySetInnerHTML={{ __html: `
         body {
           cursor: none !important;
         }
         * {
           cursor: none !important;
         }
-      `}</style>
+      `}} />
       
       {/* Main cursor */}
       <motion.div 
