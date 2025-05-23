@@ -67,8 +67,6 @@ const Footer = () => {
           {/* Contact Info */}
           <div>
             <h3 className="text-white font-semibold mb-4">Contact Us</h3>
-            <p className="text-gray-400 mb-2">San Francisco, CA</p>
-            <p className="text-gray-400 mb-4">United States</p>
             <p className="text-gray-400 mb-5">contact@ojdevelop.com</p>
             
             {/* Social Media Icons with Original Brand Colors */}

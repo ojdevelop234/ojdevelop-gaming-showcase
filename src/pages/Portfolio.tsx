@@ -1,333 +1,148 @@
 
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { ExternalLink, Info } from "lucide-react";
+import ProjectCard from "@/components/ProjectCard";
+import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
-// Project categories
-const categories = ["All", "3D Game", "2D Game", "Game Environments", "Game VFX", "Roblox Game"];
-
-// Sample project data (5 projects for each category)
-const projects = [
-  // 3D Games
+// Projects data
+const projectsData = [
   {
     id: 1,
     title: "Cosmic Odyssey",
-    description: "A space exploration adventure with procedurally generated planets and immersive storyline.",
-    category: "3D Game",
+    description: "A space exploration adventure with procedurally generated planets.",
     image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b",
-    technologies: ["Unity", "C#", "HDRP"],
-    detailedDescription: "Cosmic Odyssey is an open-world space exploration game where players can discover and explore procedurally generated planets, each with unique environments, creatures, and resources. The game features a compelling narrative about uncovering an ancient alien civilization.",
-    demoUrl: "#demo-link"
+    category: "3D Game",
+    tags: ["Unity", "C#", "Procedural Generation"]
   },
   {
     id: 2,
-    title: "Neon Riders",
-    description: "High-speed futuristic racing game with dynamic track generation and multiplayer modes.",
-    category: "3D Game",
-    image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5",
-    technologies: ["Unreal Engine", "C++", "Niagara"],
-    detailedDescription: "Neon Riders offers an adrenaline-fueled racing experience set in a cyberpunk future. Players can customize their vehicles, compete in various championship modes, and race against friends in local or online multiplayer modes.",
-    demoUrl: "#demo-link"
+    title: "Pixel Warriors",
+    description: "Retro-style action platformer with modern gameplay mechanics.",
+    image: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7",
+    category: "2D Game",
+    tags: ["Unity", "C#", "Pixel Art"]
   },
   {
     id: 3,
-    title: "Forgotten Realms",
-    description: "Fantasy RPG with expansive world, rich lore, and strategic combat system.",
-    category: "3D Game",
+    title: "Ancient Realms",
+    description: "Fantasy environments with realistic lighting and physics simulations.",
     image: "https://images.unsplash.com/photo-1531297484001-80022131f5a1",
-    technologies: ["Unity", "C#", "Wwise"],
-    detailedDescription: "Forgotten Realms is an immersive fantasy RPG where players embark on an epic journey through a world threatened by ancient evil. The game features a deep progression system, companion mechanics, and choices that affect the narrative.",
-    demoUrl: "#demo-link"
+    category: "Game Environments",
+    tags: ["Unreal Engine", "C++", "Environment Design"]
   },
   {
     id: 4,
-    title: "Mech Warriors",
-    description: "Tactical mech combat game with customizable robots and destructible environments.",
-    category: "3D Game",
+    title: "Particle Mayhem",
+    description: "Next-gen visual effects system for explosive game moments.",
     image: "https://images.unsplash.com/photo-1470813740244-df37b8c1edcb",
-    technologies: ["Unreal Engine", "C++", "PhysX"],
-    detailedDescription: "In Mech Warriors, players command powerful mechanized suits in tactical combat scenarios. The game features a physics-based destruction system, allowing for strategic environment manipulation during battles.",
-    demoUrl: "#demo-link"
+    category: "Game VFX",
+    tags: ["Unity", "Shader Graph", "VFX"]
   },
   {
     id: 5,
-    title: "Deep Dive",
-    description: "Underwater exploration game with realistic ocean ecosystems and survival elements.",
+    title: "Dungeon Crawler",
+    description: "Procedurally generated dungeons with roguelike elements.",
+    image: "https://images.unsplash.com/photo-1551103782-8ab07afd45c1",
     category: "3D Game",
-    image: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7",
-    technologies: ["Unity", "C#", "Shader Graph"],
-    detailedDescription: "Deep Dive is a visually stunning underwater exploration game where players discover the mysteries of the ocean depths. The game features realistic water physics, diverse marine life, and an oxygen management system.",
-    demoUrl: "#demo-link"
+    tags: ["Unity", "C#", "AI"]
   },
-  
-  // 2D Games
   {
     id: 6,
-    title: "Pixel Warriors",
-    description: "Retro-style action platformer with modern gameplay mechanics and roguelike elements.",
-    category: "2D Game",
-    image: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7",
-    technologies: ["Unity", "C#", "Spine"],
-    detailedDescription: "Pixel Warriors combines classic pixel art aesthetics with modern gameplay systems. Players choose from multiple character classes, each with unique abilities, as they fight through procedurally generated levels.",
-    demoUrl: "#demo-link"
+    title: "Neon Racer",
+    description: "Futuristic racing game with dynamic tracks and physics.",
+    image: "https://images.unsplash.com/photo-1563089145-599997674d42",
+    category: "3D Game",
+    tags: ["Unreal Engine", "Blueprint", "Physics"]
   },
   {
     id: 7,
-    title: "Astro Cats",
-    description: "Casual physics-based puzzle game featuring adorable space-faring felines.",
-    category: "2D Game",
-    image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5",
-    technologies: ["Unity", "C#", "Box2D"],
-    detailedDescription: "Astro Cats is a charming puzzle game where players help cats navigate through space to collect cosmic treats. The game features over 100 handcrafted levels with increasing complexity and unique mechanics.",
-    demoUrl: "#demo-link"
+    title: "Strategy Command",
+    description: "Real-time strategy game with advanced AI opponents.",
+    image: "https://images.unsplash.com/photo-1511512578047-dfb367046420",
+    category: "Strategy",
+    tags: ["Unity", "C#", "AI"]
   },
   {
     id: 8,
-    title: "Dungeon Crawlers",
-    description: "Top-down roguelike with pixel art graphics and deep character progression.",
-    category: "2D Game",
-    image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b",
-    technologies: ["GameMaker Studio", "GML"],
-    detailedDescription: "Dungeon Crawlers is a challenging roguelike featuring permadeath and procedurally generated dungeons. Players must navigate through increasingly difficult levels while collecting equipment and power-ups.",
-    demoUrl: "#demo-link"
-  },
-  {
-    id: 9,
-    title: "Rhythm Blitz",
-    description: "Music-based action game where attacks and movements sync with the beat.",
-    category: "2D Game",
-    image: "https://images.unsplash.com/photo-1470813740244-df37b8c1edcb",
-    technologies: ["Unity", "C#", "FMOD"],
-    detailedDescription: "Rhythm Blitz combines action gameplay with rhythm mechanics, requiring players to time their attacks, defenses, and movements to the beat of the music. Features an original soundtrack with dynamic difficulty adjustment.",
-    demoUrl: "#demo-link"
-  },
-  {
-    id: 10,
-    title: "Farm Life",
-    description: "Relaxing farming simulation with social elements and seasonal activities.",
-    category: "2D Game",
-    image: "https://images.unsplash.com/photo-1531297484001-80022131f5a1",
-    technologies: ["Unity", "C#"],
-    detailedDescription: "Farm Life is a cozy farming simulator where players build and maintain their dream farm, interact with townspeople, and participate in seasonal festivals. Features crop growing, animal raising, and crafting systems.",
-    demoUrl: "#demo-link"
-  },
-  
-  // Game Environments
-  {
-    id: 11,
-    title: "Ancient Temple",
-    description: "Detailed environment asset pack for mystical temple settings with modular components.",
-    category: "Game Environments",
-    image: "https://images.unsplash.com/photo-1531297484001-80022131f5a1",
-    technologies: ["Blender", "Substance Painter", "Unity"],
-    detailedDescription: "The Ancient Temple environment pack includes over 200 high-quality assets for creating immersive temple scenes. Features include modular architecture pieces, statues, vegetation, and atmospheric effects.",
-    demoUrl: "#demo-link"
-  },
-  {
-    id: 12,
-    title: "Cyberpunk City",
-    description: "Neon-lit futuristic cityscape with interactive elements and ambient life.",
-    category: "Game Environments",
-    image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5",
-    technologies: ["Unreal Engine", "Blender", "Substance Designer"],
-    detailedDescription: "This cyberpunk city environment features densely packed buildings with neon signs, holographic advertisements, and ambient citizens. Includes day/night cycle system and weather effects.",
-    demoUrl: "#demo-link"
-  },
-  {
-    id: 13,
-    title: "Forest Haven",
-    description: "Lush forest environment with dynamic lighting and interactive foliage.",
-    category: "Game Environments",
-    image: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7",
-    technologies: ["Unity", "SpeedTree", "Substance Painter"],
-    detailedDescription: "Forest Haven is a realistic forest environment with dynamic time-of-day lighting, interactive vegetation, and ambient wildlife. Perfect for adventure or survival games requiring an immersive natural setting.",
-    demoUrl: "#demo-link"
-  },
-  {
-    id: 14,
-    title: "Abandoned Station",
-    description: "Post-apocalyptic subway station with detailed destruction and atmospheric effects.",
-    category: "Game Environments",
-    image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b",
-    technologies: ["Unreal Engine", "Maya", "Quixel"],
-    detailedDescription: "This meticulously crafted abandoned station environment features realistic decay, dynamic dust particles, and eerie lighting. Includes modular components for custom level design.",
-    demoUrl: "#demo-link"
-  },
-  {
-    id: 15,
-    title: "Medieval Village",
-    description: "Historically inspired village environment with customizable buildings and NPCs.",
-    category: "Game Environments",
-    image: "https://images.unsplash.com/photo-1470813740244-df37b8c1edcb",
-    technologies: ["Unity", "Blender", "Substance Painter"],
-    detailedDescription: "The Medieval Village pack includes buildings, props, and character models to create an authentic medieval settlement. Features include interior details, working doors, and ambient life simulation.",
-    demoUrl: "#demo-link"
-  },
-  
-  // Game VFX
-  {
-    id: 16,
-    title: "Magic Spell Effects",
-    description: "Collection of fantasy spell visual effects with element-based variations.",
-    category: "Game VFX",
-    image: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7",
-    technologies: ["Unity", "VFX Graph", "Shader Graph"],
-    detailedDescription: "This VFX pack includes over 50 magical spell effects across fire, water, earth, air, and arcane categories. Each effect is fully customizable with exposed parameters for color, intensity, and duration.",
-    demoUrl: "#demo-link"
-  },
-  {
-    id: 17,
-    title: "Sci-Fi Weapons",
-    description: "Futuristic weapon effects including lasers, plasma, and energy weapons.",
-    category: "Game VFX",
-    image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5",
-    technologies: ["Unreal Engine", "Niagara"],
-    detailedDescription: "The Sci-Fi Weapons VFX pack contains high-quality visual effects for futuristic weaponry, including muzzle flashes, impact effects, projectiles, and reload animations.",
-    demoUrl: "#demo-link"
-  },
-  {
-    id: 18,
-    title: "Elemental Impacts",
-    description: "Realistic impact effects for different materials with physics-based reactions.",
-    category: "Game VFX",
-    image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b",
-    technologies: ["Unity", "Shader Graph"],
-    detailedDescription: "Elemental Impacts provides realistic impact effects for various materials including wood, metal, stone, water, and flesh. Effects include particles, decals, sounds, and physics reactions.",
-    demoUrl: "#demo-link"
-  },
-  {
-    id: 19,
-    title: "Weather System",
-    description: "Dynamic weather effects including rain, snow, fog, and storms with seamless transitions.",
-    category: "Game VFX",
-    image: "https://images.unsplash.com/photo-1470813740244-df37b8c1edcb",
-    technologies: ["Unity", "VFX Graph", "Shader Graph"],
-    detailedDescription: "This comprehensive weather system includes visual effects for various weather conditions, a day/night cycle, and dynamic cloud formations. Features runtime parameter adjustment for intensity and transition control.",
-    demoUrl: "#demo-link"
-  },
-  {
-    id: 20,
-    title: "Explosion Pack",
-    description: "Variety of explosion effects from realistic to stylized with customizable parameters.",
-    category: "Game VFX",
-    image: "https://images.unsplash.com/photo-1531297484001-80022131f5a1",
-    technologies: ["Unreal Engine", "Niagara", "Cascade"],
-    detailedDescription: "The Explosion Pack features 25 different explosion effects ranging from realistic to stylized. Includes fire, smoke, shockwaves, debris, and sound effects with adjustable parameters.",
-    demoUrl: "#demo-link"
-  },
-  
-  // Roblox Games
-  {
-    id: 21,
-    title: "Tycoon Empire",
-    description: "Economic simulation where players build and manage their business empire.",
-    category: "Roblox Game",
-    image: "https://images.unsplash.com/photo-1531297484001-80022131f5a1",
-    technologies: ["Roblox Studio", "Lua"],
-    detailedDescription: "Tycoon Empire is a Roblox game where players start with a small business and expand it into a corporate empire. Features include automated production, staff management, and competitive multiplayer elements.",
-    demoUrl: "#demo-link"
-  },
-  {
-    id: 22,
-    title: "Adventure Quest",
-    description: "RPG adventure game with quests, combat, and character progression.",
-    category: "Roblox Game",
-    image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b",
-    technologies: ["Roblox Studio", "Lua"],
-    detailedDescription: "Adventure Quest is an immersive RPG experience on Roblox featuring diverse biomes, challenging enemies, and an epic storyline. Players can customize characters, learn skills, and collect rare items.",
-    demoUrl: "#demo-link"
-  },
-  {
-    id: 23,
-    title: "Speed Racers",
-    description: "Multiplayer racing game with customizable vehicles and diverse tracks.",
-    category: "Roblox Game",
-    image: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7",
-    technologies: ["Roblox Studio", "Lua"],
-    detailedDescription: "Speed Racers offers thrilling multiplayer races across various themed tracks. Players can customize their vehicles, unlock upgrades, and compete in seasonal tournaments.",
-    demoUrl: "#demo-link"
-  },
-  {
-    id: 24,
-    title: "Zombie Survival",
-    description: "Cooperative survival game where players defend against zombie hordes.",
-    category: "Roblox Game",
-    image: "https://images.unsplash.com/photo-1470813740244-df37b8c1edcb",
-    technologies: ["Roblox Studio", "Lua"],
-    detailedDescription: "Zombie Survival is an intense cooperative experience where players work together to fortify bases, collect resources, and survive increasingly difficult waves of zombies. Features various character classes and weapon types.",
-    demoUrl: "#demo-link"
-  },
-  {
-    id: 25,
-    title: "Island Paradise",
-    description: "Social simulation game where players build and customize their dream island.",
-    category: "Roblox Game",
-    image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5",
-    technologies: ["Roblox Studio", "Lua"],
-    detailedDescription: "Island Paradise allows players to create their own tropical getaway with extensive building and decoration options. Features include mini-games, social events, and seasonal content updates.",
-    demoUrl: "#demo-link"
+    title: "VR Experience",
+    description: "Immersive virtual reality adventure set in alien worlds.",
+    image: "https://images.unsplash.com/photo-1593508512255-86ab42a8e620",
+    category: "VR",
+    tags: ["Unity", "C#", "VR"]
   }
 ];
 
+// Categories for filter
+const categories = ["All", "3D Game", "2D Game", "Game Environments", "Game VFX", "Strategy", "VR"];
+
 const Portfolio = () => {
-  const [selectedCategory, setSelectedCategory] = useState("All");
-  const [selectedProject, setSelectedProject] = useState(null);
-
-  // Filter projects based on selected category
-  const filteredProjects = selectedCategory === "All" 
-    ? projects 
-    : projects.filter(project => project.category === selectedCategory);
-
+  const [activeCategory, setActiveCategory] = useState("All");
+  const [filteredProjects, setFilteredProjects] = useState(projectsData);
+  const [isLoaded, setIsLoaded] = useState(false);
+  
+  useEffect(() => {
+    // Filter projects based on active category
+    if (activeCategory === "All") {
+      setFilteredProjects(projectsData);
+    } else {
+      setFilteredProjects(projectsData.filter(project => project.category === activeCategory));
+    }
+  }, [activeCategory]);
+  
+  useEffect(() => {
+    // Set loaded after initial render for animations
+    setIsLoaded(true);
+  }, []);
+  
   return (
-    <div className="bg-gradient-to-b from-gray-900 to-gray-950 text-white min-h-screen">
+    <div className="bg-gray-900 min-h-screen">
       <Navbar />
       
-      {/* Header Section */}
-      <section className="relative pt-32 pb-20 px-4">
-        <div 
-          className="absolute inset-0 bg-cover bg-center z-0 opacity-20" 
-          style={{ 
-            backgroundImage: 'url(https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5)',
-            backgroundAttachment: 'fixed'
+      {/* Page Header */}
+      <section className="pt-24 pb-12 px-4 relative overflow-hidden">
+        <div className="absolute inset-0 bg-cover bg-center opacity-20 z-0 blur-sm" 
+          style={{
+            backgroundImage: "url('https://images.unsplash.com/photo-1511512578047-dfb367046420')",
+            backgroundSize: 'cover'
           }}
         />
-        <div className="container mx-auto relative z-10">
-          <motion.div 
-            className="text-center mb-16 max-w-3xl mx-auto"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <h1 className="text-5xl font-bold mb-6 text-purple-400">Our Portfolio</h1>
-            <p className="text-lg text-gray-300">
-              Explore our diverse collection of game development projects, from immersive 3D worlds to 
-              captivating visual effects and everything in between.
-            </p>
-          </motion.div>
-        </div>
+        
+        <motion.div 
+          className="container mx-auto text-center relative z-10"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: isLoaded ? 1 : 0, y: isLoaded ? 0 : -20 }}
+          transition={{ duration: 0.8 }}
+        >
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 text-white">
+            Our <span className="text-purple-400">Portfolio</span>
+          </h1>
+          <p className="text-lg text-gray-300 max-w-3xl mx-auto">
+            Dive into our showcase of game development projects, highlighting our technical skills and creative vision.
+          </p>
+        </motion.div>
       </section>
       
       {/* Category Filter */}
-      <section className="py-8 px-4 bg-gray-800/50 backdrop-blur-sm sticky top-16 z-40">
+      <section className="py-8 px-4">
         <div className="container mx-auto">
-          <div className="flex flex-wrap justify-center gap-4">
-            {categories.map((category) => (
+          <div className="flex flex-wrap justify-center gap-3 mb-8">
+            {categories.map((category, index) => (
               <motion.button
                 key={category}
-                className={`px-5 py-2 rounded-full transition-all ${
-                  selectedCategory === category 
-                    ? "bg-purple-600 text-white" 
-                    : "bg-gray-700 text-gray-300 hover:bg-gray-600"
+                onClick={() => setActiveCategory(category)}
+                className={`px-4 py-2 text-sm rounded-md transition-all ${
+                  activeCategory === category 
+                    ? "bg-purple-600 text-white shadow-lg shadow-purple-500/20" 
+                    : "bg-gray-800 text-gray-300 hover:bg-gray-700"
                 }`}
-                onClick={() => setSelectedCategory(category)}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: isLoaded ? 1 : 0, y: isLoaded ? 0 : 20 }}
+                transition={{ duration: 0.4, delay: 0.1 * index }}
               >
                 {category}
               </motion.button>
@@ -337,159 +152,127 @@ const Portfolio = () => {
       </section>
       
       {/* Projects Grid */}
-      <section className="py-20 px-4">
+      <section className="py-8 px-4">
         <div className="container mx-auto">
-          <motion.div
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5 }}
-          >
-            <AnimatePresence>
-              {filteredProjects.map((project) => (
-                <motion.div
-                  key={project.id}
-                  layout
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.8 }}
-                  transition={{ duration: 0.4 }}
-                  className="h-full"
-                >
-                  <Card className="h-full overflow-hidden flex flex-col bg-gray-800 border-gray-700 hover:border-purple-500 transition-all duration-300">
-                    <div className="relative h-48 w-full overflow-hidden">
-                      <img 
-                        src={project.image} 
-                        alt={project.title} 
-                        className="w-full h-full object-cover transition-transform duration-700 hover:scale-110"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent opacity-60" />
-                      <span className="absolute top-2 right-2 bg-purple-600 text-white text-xs px-2 py-1 rounded-full">
-                        {project.category}
-                      </span>
-                    </div>
-                    
-                    <CardHeader>
-                      <CardTitle className="text-xl text-purple-400">{project.title}</CardTitle>
-                      <CardDescription className="line-clamp-2">{project.description}</CardDescription>
-                    </CardHeader>
-                    
-                    <CardContent className="flex-grow">
-                      <div className="flex flex-wrap gap-2 mb-4">
-                        {project.technologies.map((tech, index) => (
-                          <span 
-                            key={index} 
-                            className="px-2 py-1 rounded-full text-xs bg-gray-700 text-purple-300"
-                          >
-                            {tech}
-                          </span>
-                        ))}
-                      </div>
-                    </CardContent>
-                    
-                    <CardFooter className="flex gap-3">
-                      <Button asChild variant="default" className="flex-1 bg-purple-600 hover:bg-purple-700">
-                        <a href={project.demoUrl} target="_blank" rel="noopener noreferrer">
-                          <ExternalLink className="mr-2" size={16} /> Demo
-                        </a>
-                      </Button>
-                      
-                      <Dialog>
-                        <DialogTrigger asChild>
-                          <Button variant="outline" className="flex-1 border-gray-600 hover:bg-gray-700">
-                            <Info className="mr-2" size={16} /> Details
-                          </Button>
-                        </DialogTrigger>
-                        <DialogContent className="bg-gray-800 border-gray-700 text-white max-w-3xl">
-                          <DialogHeader>
-                            <DialogTitle className="text-2xl text-purple-400">{project.title}</DialogTitle>
-                            <DialogDescription className="text-gray-300">{project.category}</DialogDescription>
-                          </DialogHeader>
-                          
-                          <div className="grid gap-6 py-4">
-                            <div className="relative h-56 md:h-72 w-full overflow-hidden rounded-lg">
-                              <img 
-                                src={project.image} 
-                                alt={project.title} 
-                                className="w-full h-full object-cover"
-                              />
-                            </div>
-                            
-                            <div>
-                              <h4 className="text-lg font-semibold text-purple-300 mb-2">Description</h4>
-                              <p className="text-gray-300">{project.detailedDescription}</p>
-                            </div>
-                            
-                            <div>
-                              <h4 className="text-lg font-semibold text-purple-300 mb-2">Technologies</h4>
-                              <div className="flex flex-wrap gap-2">
-                                {project.technologies.map((tech, index) => (
-                                  <span 
-                                    key={index} 
-                                    className="px-3 py-1 rounded-full text-sm bg-gray-700 text-purple-300"
-                                  >
-                                    {tech}
-                                  </span>
-                                ))}
-                              </div>
-                            </div>
-                            
-                            <div className="flex justify-end">
-                              <Button asChild className="bg-purple-600 hover:bg-purple-700">
-                                <a href={project.demoUrl} target="_blank" rel="noopener noreferrer">
-                                  <ExternalLink className="mr-2" size={16} /> View Demo
-                                </a>
-                              </Button>
-                            </div>
-                          </div>
-                        </DialogContent>
-                      </Dialog>
-                    </CardFooter>
-                  </Card>
-                </motion.div>
-              ))}
-            </AnimatePresence>
-          </motion.div>
-        </div>
-      </section>
-      
-      {/* CTA Section */}
-      <section className="py-24 px-4 relative">
-        <div 
-          className="absolute inset-0 bg-cover bg-center bg-fixed opacity-20 z-0" 
-          style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7)' }}
-        />
-        
-        <div className="container mx-auto relative z-10">
-          <motion.div 
-            className="max-w-4xl mx-auto text-center bg-gray-800/80 backdrop-blur-sm p-12 rounded-2xl border border-gray-700"
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-4xl font-bold mb-6 text-purple-400">Ready to Start Your Project?</h2>
-            <p className="text-lg mb-8 text-gray-300">
-              Have a game idea you'd like to bring to life? Let's discuss how we can help turn your vision into reality.
-              Our team is ready to tackle your next gaming challenge.
-            </p>
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Button 
-                asChild
-                className="bg-purple-600 hover:bg-purple-700 text-lg px-6 py-6 h-auto"
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            {filteredProjects.map((project, index) => (
+              <motion.div
+                key={project.id}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: isLoaded ? 1 : 0, scale: isLoaded ? 1 : 0.9 }}
+                transition={{ duration: 0.5, delay: 0.1 * index }}
               >
-                <Link to="/contact">Contact Us Today</Link>
+                <ProjectCard project={project} />
+              </motion.div>
+            ))}
+          </div>
+          
+          {/* Empty state when no projects match filter */}
+          {filteredProjects.length === 0 && (
+            <motion.div 
+              className="text-center py-16"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: isLoaded ? 1 : 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <h3 className="text-xl text-gray-400 mb-4">No projects in this category yet</h3>
+              <Button 
+                onClick={() => setActiveCategory("All")} 
+                variant="outline"
+                size="sm"
+                className="border-purple-500 text-purple-400"
+              >
+                View All Projects
               </Button>
             </motion.div>
-          </motion.div>
+          )}
         </div>
       </section>
+
+      {/* Custom CTA Section */}
+      <PortfolioCallToAction />
       
       <Footer />
     </div>
+  );
+};
+
+// Custom CTA for Portfolio page
+const PortfolioCallToAction = () => {
+  return (
+    <section className="py-12 relative overflow-hidden">
+      {/* Background with gradient and animation */}
+      <motion.div 
+        className="absolute inset-0 bg-gradient-to-br from-gray-900 via-purple-900/20 to-gray-900 z-0"
+        animate={{ 
+          backgroundPosition: ['0% 0%', '100% 100%']
+        }}
+        transition={{ 
+          duration: 15, 
+          repeat: Infinity, 
+          repeatType: 'reverse',
+          ease: "linear" 
+        }}
+        style={{ backgroundSize: '200% 200%' }}
+      />
+
+      <div className="container mx-auto px-4 relative z-10">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+          className="max-w-3xl mx-auto"
+        >
+          <div className="bg-gray-800/60 backdrop-blur-sm p-6 md:p-8 rounded-xl border border-purple-500/30 shadow-lg">
+            <motion.h3 
+              className="text-2xl font-bold mb-3 text-center bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-blue-400"
+              animate={{ backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'] }}
+              transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+              style={{ backgroundSize: '200% auto' }}
+            >
+              Ready for Your Next Gaming Project?
+            </motion.h3>
+                
+            <motion.p 
+              className="text-gray-300 mb-6 text-center max-w-xl mx-auto text-sm"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ delay: 0.3, duration: 0.5 }}
+            >
+              Let's create something amazing together. Get in touch to discuss your game development needs.
+            </motion.p>
+              
+            <div className="flex justify-center">
+              <Link to="/contact">
+                <Button 
+                  size="sm"
+                  variant="default"
+                  className="relative overflow-hidden bg-purple-600 hover:bg-purple-700 text-xs px-4 py-1 h-8"
+                  asChild
+                >
+                  <motion.div
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    transition={{ type: "spring", stiffness: 500, damping: 15 }}
+                  >
+                    <span className="relative z-10">Contact Us</span>
+                    
+                    {/* Glint animation */}
+                    <motion.div 
+                      className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-20"
+                      initial={{ x: "-100%" }}
+                      whileHover={{ x: "100%" }}
+                      transition={{ duration: 0.8 }}
+                    />
+                  </motion.div>
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </motion.div>
+      </div>
+    </section>
   );
 };
 
