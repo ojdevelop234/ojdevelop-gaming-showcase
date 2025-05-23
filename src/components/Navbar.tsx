@@ -60,24 +60,14 @@ const Navbar = () => {
               style={{ width: "40px", height: "40px" }}
             >
               <img 
-                src="/lovable-uploads/ffeffba4-c81d-4d58-81da-0f9ed94832eb.png" 
+                src="/lovable-uploads/a07fed4f-8b06-4bb7-aeec-57326509f48d.png" 
                 alt="OjDevelop Studio" 
                 className="w-full h-full object-cover"
               />
               
-              {/* Static glow effect instead of rotating */}
-              <motion.div
-                className="absolute inset-0 rounded-full blur-md -z-10"
-                animate={{
-                  background: [
-                    "rgba(93, 135, 255, 0.6)",
-                    "rgba(172, 82, 255, 0.6)",
-                    "rgba(255, 82, 194, 0.6)",
-                    "rgba(172, 82, 255, 0.6)",
-                    "rgba(93, 135, 255, 0.6)"
-                  ]
-                }}
-                transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+              {/* Static glow effect */}
+              <div
+                className="absolute inset-0 rounded-full blur-md -z-10 bg-purple-500/40"
               />
             </div>
             

@@ -10,7 +10,6 @@ import SkillSection from "@/components/SkillSection";
 import ProcessSection from "@/components/ProcessSection";
 import AboutSection from "@/components/AboutSection";
 import CallToAction from "@/components/CallToAction";
-import TechStackSection from "@/components/TechStackSection";
 import TestimonialsCarousel from "@/components/TestimonialsCarousel";
 
 // Lazy load components for better performance
@@ -141,9 +140,6 @@ const Home = () => {
       
       {/* About Section - New component with timeline animation */}
       <AboutSection />
-      
-      {/* Tech Stack Section - New Component */}
-      <TechStackSection />
       
       {/* Skills Section */}
       <SkillSection skills={skills} />

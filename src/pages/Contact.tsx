@@ -3,7 +3,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { Gamepad2, Mail, MapPin, MessageSquare, Send } from "lucide-react";
+import { Gamepad2, Mail, MessageSquare, Send } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -94,16 +94,6 @@ const Contact = () => {
                     <div>
                       <h3 className="font-medium text-white">Email</h3>
                       <p className="text-gray-400">contact@ojdevelop.com</p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-start">
-                    <div className="bg-purple-600/20 p-3 rounded-lg mr-4">
-                      <MapPin className="text-purple-400" />
-                    </div>
-                    <div>
-                      <h3 className="font-medium text-white">Location</h3>
-                      <p className="text-gray-400">San Francisco, CA, United States</p>
                     </div>
                   </div>
                   

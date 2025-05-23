@@ -1,8 +1,9 @@
 
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowUp, Github, Globe } from "lucide-react";
-import { FaDiscord, FaGithub, FaTwitter, FaInstagram, FaLinkedinIn } from "react-icons/fa";
+import { ArrowUp } from "lucide-react";
+import { FaDiscord, FaGithub } from "react-icons/fa";
+import { Fiverr } from "./icons/CustomIcons";
 
 const Footer = () => {
   const scrollToTop = () => {
@@ -19,7 +20,7 @@ const Footer = () => {
           <div className="md:col-span-1">
             <Link to="/" className="flex items-center mb-4">
               <img 
-                src="/lovable-uploads/ffeffba4-c81d-4d58-81da-0f9ed94832eb.png" 
+                src="/lovable-uploads/a07fed4f-8b06-4bb7-aeec-57326509f48d.png" 
                 alt="OjDevelop Studio" 
                 className="w-10 h-10 rounded-full mr-2" 
               />
@@ -95,45 +96,23 @@ const Footer = () => {
               </motion.a>
               
               <motion.a 
-                href="https://twitter.com/ojdevelop" 
+                href="https://www.fiverr.com/" 
                 target="_blank"
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.1, y: -3 }}
                 whileTap={{ scale: 0.95 }}
-                className="text-[#1DA1F2] hover:text-[#1DA1F2]/90 transition-colors"
+                className="text-[#1DBF73] hover:text-[#1DBF73]/90 transition-colors"
               >
-                <FaTwitter size={24} className="hover:drop-shadow-[0_0_6px_rgba(29,161,242,0.7)]" />
-              </motion.a>
-              
-              <motion.a 
-                href="https://instagram.com/ojdevelop" 
-                target="_blank"
-                rel="noopener noreferrer"
-                whileHover={{ scale: 1.1, y: -3 }}
-                whileTap={{ scale: 0.95 }}
-                className="text-[#E1306C] hover:text-[#E1306C]/90 transition-colors"
-              >
-                <FaInstagram size={24} className="hover:drop-shadow-[0_0_6px_rgba(225,48,108,0.7)]" />
-              </motion.a>
-              
-              <motion.a 
-                href="https://linkedin.com/company/ojdevelop" 
-                target="_blank"
-                rel="noopener noreferrer"
-                whileHover={{ scale: 1.1, y: -3 }}
-                whileTap={{ scale: 0.95 }}
-                className="text-[#0077B5] hover:text-[#0077B5]/90 transition-colors"
-              >
-                <FaLinkedinIn size={24} className="hover:drop-shadow-[0_0_6px_rgba(0,119,181,0.7)]" />
+                <Fiverr size={24} className="hover:drop-shadow-[0_0_6px_rgba(29,191,115,0.7)]" />
               </motion.a>
             </div>
           </div>
         </div>
         
         {/* Bottom Bar */}
-        <div className="mt-12 pt-8 border-t border-gray-800 flex flex-col md:flex-row items-center justify-center md:justify-between">
-          {/* Copyright text - centered on mobile, centered on desktop */}
-          <p className="text-gray-500 mb-4 md:mb-0 mx-auto">
+        <div className="mt-12 pt-8 border-t border-gray-800 flex flex-col md:flex-row items-center justify-center">
+          {/* Copyright text - centered on all screen sizes */}
+          <p className="text-gray-500 mb-4 md:mb-0 text-center">
             © {currentYear} OjDevelop Studio. All rights reserved.
           </p>
           
