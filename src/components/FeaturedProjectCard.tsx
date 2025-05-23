@@ -80,7 +80,7 @@ const FeaturedProjectCard = memo(({ project }: ProjectProps) => {
             transition={{ delay: 0.4 }}
           >
             <span className="flex items-center">
-              <span>View Details</span>
+              <span>Details</span>
               <motion.span 
                 className="ml-1"
                 animate={{ x: [0, 3, 0] }}
