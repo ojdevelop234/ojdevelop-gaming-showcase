@@ -1,4 +1,5 @@
-import { useState, useEffect, Suspense, lazy } from "react";
+
+import { useState, Suspense, lazy } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
@@ -9,7 +10,8 @@ import SkillSection from "@/components/SkillSection";
 import ProcessSection from "@/components/ProcessSection";
 import AboutSection from "@/components/AboutSection";
 import CallToAction from "@/components/CallToAction";
-import AnimatedTestimonialCard from "@/components/AnimatedTestimonialCard";
+import TechStackSection from "@/components/TechStackSection";
+import TestimonialsCarousel from "@/components/TestimonialsCarousel";
 
 // Lazy load components for better performance
 const FeaturedProjectCard = lazy(() => import("@/components/FeaturedProjectCard"));
@@ -98,7 +100,8 @@ const Home = () => {
       description: "A space exploration adventure with procedurally generated planets.",
       image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b",
       category: "3D Game",
-      demoUrl: "#"
+      demoUrl: "#",
+      detailedDescription: "Cosmic Odyssey is an immersive space exploration game featuring procedural generation technology that creates unique planets, star systems, and alien species for each player. The game combines realistic physics with breathtaking visuals to deliver an unforgettable journey through the cosmos."
     },
     {
       id: 2,
@@ -106,7 +109,8 @@ const Home = () => {
       description: "Retro-style action platformer with modern gameplay mechanics.",
       image: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7",
       category: "2D Game",
-      demoUrl: "#"
+      demoUrl: "#",
+      detailedDescription: "Pixel Warriors combines classic pixel art aesthetics with modern gameplay innovations. This action platformer features tight controls, procedurally generated levels, and a unique character progression system that allows players to customize their warriors with hundreds of different ability combinations."
     },
     {
       id: 3,
@@ -114,7 +118,8 @@ const Home = () => {
       description: "Immersive fantasy environments with realistic lighting and physics.",
       image: "https://images.unsplash.com/photo-1531297484001-80022131f5a1",
       category: "Game Environments",
-      demoUrl: "#"
+      demoUrl: "#",
+      detailedDescription: "Ancient Realms showcases our expertise in creating breathtaking game environments. These fantasy worlds feature realistic lighting, physics-based interactions, and meticulously crafted details that bring the world to life. The environments were designed to enhance gameplay while providing a visually stunning experience."
     },
     {
       id: 4,
@@ -122,34 +127,8 @@ const Home = () => {
       description: "Next-gen visual effects system for explosive game moments.",
       image: "https://images.unsplash.com/photo-1470813740244-df37b8c1edcb",
       category: "Game VFX",
-      demoUrl: "#"
-    }
-  ];
-  
-  const testimonials = [
-    {
-      id: 1,
-      name: "Sarah Johnson",
-      role: "Indie Game Publisher",
-      content: "The team at OjDevelop Studio transformed our concept into a stunning game that exceeded all expectations. Their technical prowess and creativity are unmatched.",
-      avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330",
-      rating: 5
-    },
-    {
-      id: 2,
-      name: "Michael Chen",
-      role: "Game Studio Director",
-      content: "We've collaborated with OjDevelop on multiple projects, and they consistently deliver exceptional quality. Their attention to detail and innovative solutions make them an invaluable partner.",
-      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d",
-      rating: 4
-    },
-    {
-      id: 3,
-      name: "Emma Rodriguez",
-      role: "AR/VR Developer",
-      content: "The visual effects created by OjDevelop Studio for our VR experience were groundbreaking. They have a deep understanding of what makes immersive experiences truly memorable.",
-      avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2",
-      rating: 5
+      demoUrl: "#",
+      detailedDescription: "Particle Mayhem is a cutting-edge visual effects system designed to create spectacular in-game moments. The system utilizes GPU acceleration and advanced particle physics to simulate explosions, magical effects, environmental phenomena, and other visual elements that enhance the gaming experience and create memorable moments."
     }
   ];
   
@@ -162,6 +141,9 @@ const Home = () => {
       
       {/* About Section - New component with timeline animation */}
       <AboutSection />
+      
+      {/* Tech Stack Section - New Component */}
+      <TechStackSection />
       
       {/* Skills Section */}
       <SkillSection skills={skills} />
@@ -242,7 +224,7 @@ const Home = () => {
         </div>
       </section>
       
-      {/* Testimonials Section */}
+      {/* Testimonials Section - Now with Carousel */}
       <section id="testimonials" className="py-24 px-4 bg-gray-850 bg-opacity-30">
         <div className="container mx-auto">
           <motion.div 
@@ -258,15 +240,7 @@ const Home = () => {
             </p>
           </motion.div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {testimonials.map((testimonial, index) => (
-              <AnimatedTestimonialCard
-                key={testimonial.id}
-                testimonial={testimonial}
-                index={index}
-              />
-            ))}
-          </div>
+          <TestimonialsCarousel />
         </div>
       </section>
       

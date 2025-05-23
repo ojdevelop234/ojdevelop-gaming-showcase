@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -53,21 +54,18 @@ const Navbar = () => {
             className="relative flex items-center"
             whileHover={{ scale: 1.05 }}
           >
-            {/* Logo image */}
-            <motion.div
-              initial={{ rotate: 0 }}
-              animate={{ rotate: 360 }}
-              transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-              className="mr-3 relative"
+            {/* Logo image - now circular and stable */}
+            <div
+              className="mr-3 relative rounded-full overflow-hidden border-2 border-purple-500 flex items-center justify-center"
               style={{ width: "40px", height: "40px" }}
             >
               <img 
-                src="/lovable-uploads/c77fb9d0-be3f-41dc-86d8-309de40b43a9.png" 
+                src="/lovable-uploads/ffeffba4-c81d-4d58-81da-0f9ed94832eb.png" 
                 alt="OjDevelop Studio" 
-                className="w-full h-full object-contain"
+                className="w-full h-full object-cover"
               />
               
-              {/* Rotating glow effect */}
+              {/* Static glow effect instead of rotating */}
               <motion.div
                 className="absolute inset-0 rounded-full blur-md -z-10"
                 animate={{
@@ -81,7 +79,7 @@ const Navbar = () => {
                 }}
                 transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
               />
-            </motion.div>
+            </div>
             
             {/* Animated text */}
             <div className="flex items-center">

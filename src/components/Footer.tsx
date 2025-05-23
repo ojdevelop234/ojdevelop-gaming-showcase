@@ -1,7 +1,8 @@
 
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowUp, Github, Globe, MessageSquare } from "lucide-react";
+import { ArrowUp, Github, Globe } from "lucide-react";
+import { FaDiscord, FaGithub, FaTwitter, FaInstagram, FaLinkedinIn } from "react-icons/fa";
 
 const Footer = () => {
   const scrollToTop = () => {
@@ -18,44 +19,15 @@ const Footer = () => {
           <div className="md:col-span-1">
             <Link to="/" className="flex items-center mb-4">
               <img 
-                src="/lovable-uploads/c77fb9d0-be3f-41dc-86d8-309de40b43a9.png" 
+                src="/lovable-uploads/ffeffba4-c81d-4d58-81da-0f9ed94832eb.png" 
                 alt="OjDevelop Studio" 
-                className="w-10 h-10 mr-2" 
+                className="w-10 h-10 rounded-full mr-2" 
               />
               <span className="text-xl font-bold text-purple-400">OjDevelop Studio</span>
             </Link>
             <p className="text-gray-400 mb-4">
               Crafting immersive digital worlds and memorable gaming experiences through creative coding and thoughtful game design.
             </p>
-            <div className="flex space-x-4">
-              <motion.a 
-                href="https://discord.gg/pcUnY3W2" 
-                target="_blank"
-                rel="noopener noreferrer"
-                whileHover={{ scale: 1.1 }}
-                className="text-gray-400 hover:text-purple-400 transition-colors"
-              >
-                <MessageSquare size={20} />
-              </motion.a>
-              <motion.a 
-                href="https://github.com/ojdevelop234" 
-                target="_blank"
-                rel="noopener noreferrer"
-                whileHover={{ scale: 1.1 }}
-                className="text-gray-400 hover:text-purple-400 transition-colors"
-              >
-                <Github size={20} />
-              </motion.a>
-              <motion.a 
-                href="https://www.fiverr.com/" 
-                target="_blank"
-                rel="noopener noreferrer"
-                whileHover={{ scale: 1.1 }}
-                className="text-gray-400 hover:text-purple-400 transition-colors"
-              >
-                <Globe size={20} />
-              </motion.a>
-            </div>
           </div>
           
           {/* Quick Links */}
@@ -96,13 +68,72 @@ const Footer = () => {
             <h3 className="text-white font-semibold mb-4">Contact Us</h3>
             <p className="text-gray-400 mb-2">San Francisco, CA</p>
             <p className="text-gray-400 mb-4">United States</p>
-            <p className="text-gray-400">contact@ojdevelop.com</p>
+            <p className="text-gray-400 mb-5">contact@ojdevelop.com</p>
+            
+            {/* Social Media Icons with Original Brand Colors */}
+            <div className="flex space-x-4">
+              <motion.a 
+                href="https://discord.gg/pcUnY3W2" 
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ scale: 1.1, y: -3 }}
+                whileTap={{ scale: 0.95 }}
+                className="text-[#5865F2] hover:text-[#5865F2]/90 transition-colors"
+              >
+                <FaDiscord size={24} className="hover:drop-shadow-[0_0_6px_rgba(88,101,242,0.7)]" />
+              </motion.a>
+              
+              <motion.a 
+                href="https://github.com/ojdevelop234" 
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ scale: 1.1, y: -3 }}
+                whileTap={{ scale: 0.95 }}
+                className="text-white hover:text-white/90 transition-colors"
+              >
+                <FaGithub size={24} className="hover:drop-shadow-[0_0_6px_rgba(255,255,255,0.7)]" />
+              </motion.a>
+              
+              <motion.a 
+                href="https://twitter.com/ojdevelop" 
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ scale: 1.1, y: -3 }}
+                whileTap={{ scale: 0.95 }}
+                className="text-[#1DA1F2] hover:text-[#1DA1F2]/90 transition-colors"
+              >
+                <FaTwitter size={24} className="hover:drop-shadow-[0_0_6px_rgba(29,161,242,0.7)]" />
+              </motion.a>
+              
+              <motion.a 
+                href="https://instagram.com/ojdevelop" 
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ scale: 1.1, y: -3 }}
+                whileTap={{ scale: 0.95 }}
+                className="text-[#E1306C] hover:text-[#E1306C]/90 transition-colors"
+              >
+                <FaInstagram size={24} className="hover:drop-shadow-[0_0_6px_rgba(225,48,108,0.7)]" />
+              </motion.a>
+              
+              <motion.a 
+                href="https://linkedin.com/company/ojdevelop" 
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ scale: 1.1, y: -3 }}
+                whileTap={{ scale: 0.95 }}
+                className="text-[#0077B5] hover:text-[#0077B5]/90 transition-colors"
+              >
+                <FaLinkedinIn size={24} className="hover:drop-shadow-[0_0_6px_rgba(0,119,181,0.7)]" />
+              </motion.a>
+            </div>
           </div>
         </div>
         
         {/* Bottom Bar */}
-        <div className="mt-12 pt-8 border-t border-gray-800 flex flex-wrap justify-between items-center">
-          <p className="text-gray-500 mb-4 md:mb-0">
+        <div className="mt-12 pt-8 border-t border-gray-800 flex flex-col md:flex-row items-center justify-center md:justify-between">
+          {/* Copyright text - centered on mobile, centered on desktop */}
+          <p className="text-gray-500 mb-4 md:mb-0 mx-auto">
             © {currentYear} OjDevelop Studio. All rights reserved.
           </p>
           
@@ -111,7 +142,7 @@ const Footer = () => {
             onClick={scrollToTop}
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
-            className="bg-gray-800 hover:bg-gray-700 p-2 rounded-full transition-colors"
+            className="bg-gray-800 hover:bg-gray-700 p-2 rounded-full transition-colors md:absolute md:right-8"
           >
             <ArrowUp size={20} className="text-purple-400" />
           </motion.button>
