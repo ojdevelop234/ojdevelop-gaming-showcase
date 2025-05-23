@@ -228,12 +228,12 @@ const AboutSection = () => {
               ref={imageRef}
             >
               <div className="w-full h-[480px] relative rounded-lg overflow-hidden group">
-                {/* Image */}
+                {/* Updated image to use the second uploaded image */}
                 <motion.img 
-                  src="/lovable-uploads/ea23158e-4cd2-4c40-93c5-d52302f8dd03.png"
-                  alt="Game Character" 
-                  className="w-full h-full object-cover rounded-lg transition-transform duration-700 group-hover:scale-105"
-                  initial={{ filter: "grayscale(80%)" }}
+                  src="/lovable-uploads/c77fb9d0-be3f-41dc-86d8-309de40b43a9.png"
+                  alt="OjDevelop Studio Logo" 
+                  className="w-full h-full object-contain rounded-lg transition-transform duration-700 group-hover:scale-105"
+                  initial={{ filter: "grayscale(0%)" }}
                   whileInView={{ filter: "grayscale(0%)" }}
                   transition={{ duration: 1.5 }}
                   loading="lazy"

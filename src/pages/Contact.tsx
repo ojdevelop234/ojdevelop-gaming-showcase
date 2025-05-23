@@ -1,37 +1,21 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { Gamepad2, Mail, MapPin, MessageSquare, Send } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { useToast } from "@/hooks/use-toast";
-import { Github, Mail, MessageSquare, User } from "lucide-react";
-import { Discord, Fiverr } from "@/components/icons/CustomIcons";
-import AnimatedSectionTitle from "@/components/AnimatedSectionTitle";
 
 const Contact = () => {
-  const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    subject: "",
-    message: ""
-  });
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const { register, handleSubmit, reset, formState: { errors } } = useForm();
+  
+  const onSubmit = async (data) => {
     setIsSubmitting(true);
     
     try {
@@ -40,247 +24,231 @@ const Contact = () => {
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(data)
       });
       
       if (response.ok) {
-        toast({
-          title: "Message sent!",
-          description: "We'll get back to you as soon as possible.",
-        });
-        
-        setFormData({
-          name: "",
-          email: "",
-          subject: "",
-          message: ""
-        });
+        toast.success("Message sent successfully! We'll get back to you soon.");
+        reset();
       } else {
-        toast({
-          title: "Something went wrong",
-          description: "Please try again later.",
-          variant: "destructive"
-        });
+        throw new Error("Failed to send message.");
       }
     } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to send message. Please try again.",
-        variant: "destructive"
-      });
+      toast.error("Failed to send message. Please try again later.");
+      console.error("Form submission error:", error);
     } finally {
       setIsSubmitting(false);
     }
   };
-
+  
   return (
     <div className="bg-gradient-to-b from-gray-900 to-gray-950 text-white min-h-screen">
       <Navbar />
       
-      {/* Header Section */}
-      <section className="relative pt-32 pb-20 px-4">
-        <div 
-          className="absolute inset-0 bg-cover bg-center z-0 opacity-20" 
-          style={{ 
-            backgroundImage: 'url(https://images.unsplash.com/photo-1488590528505-98d2b5aba04b)',
-            backgroundAttachment: 'fixed'
-          }}
-        />
-        <div className="container mx-auto relative z-10">
-          <AnimatedSectionTitle 
-            title="Get In Touch" 
-            subtitle="Have a project in mind or questions about our services? We'd love to hear from you!
-            Fill out the form below and we'll get back to you as soon as possible."
-          />
-        </div>
+      {/* Hero Section */}
+      <section className="pt-32 pb-12 px-4">
+        <motion.div 
+          className="container mx-auto text-center"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <motion.h1 
+            className="text-4xl md:text-6xl font-bold mb-6"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
+            Get in <span className="text-purple-400">Touch</span>
+          </motion.h1>
+          <motion.p 
+            className="text-xl text-gray-400 max-w-3xl mx-auto"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+          >
+            Have a game idea or project in mind? We'd love to hear from you!
+          </motion.p>
+        </motion.div>
       </section>
       
       {/* Contact Section */}
-      <section className="py-20 px-4">
-        <div className="container mx-auto max-w-6xl">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-            {/* Contact Form */}
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
+      <section className="py-12 px-4">
+        <div className="container mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Contact Information */}
+            <motion.div 
+              className="md:col-span-1"
+              initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
+              transition={{ duration: 0.5 }}
             >
-              <Card className="bg-gray-800 border-gray-700 shadow-xl">
-                <CardHeader>
-                  <CardTitle className="text-2xl text-purple-400">Send Us a Message</CardTitle>
-                  <CardDescription>
-                    Fill out the form below and we'll respond within 24 hours.
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <form onSubmit={handleSubmit} className="space-y-6">
-                    <div className="space-y-2">
-                      <Label htmlFor="name" className="text-gray-300">Name</Label>
-                      <div className="relative">
-                        <span className="absolute left-3 top-3 text-gray-400">
-                          <User size={18} />
-                        </span>
-                        <Input
-                          id="name"
-                          name="name"
-                          value={formData.name}
-                          onChange={handleChange}
-                          className="pl-10 bg-gray-700 border-gray-600 text-white focus:border-purple-500"
-                          placeholder="Your name"
-                          required
-                        />
-                      </div>
-                    </div>
-                    
-                    <div className="space-y-2">
-                      <Label htmlFor="email" className="text-gray-300">Email</Label>
-                      <div className="relative">
-                        <span className="absolute left-3 top-3 text-gray-400">
-                          <Mail size={18} />
-                        </span>
-                        <Input
-                          id="email"
-                          name="email"
-                          type="email"
-                          value={formData.email}
-                          onChange={handleChange}
-                          className="pl-10 bg-gray-700 border-gray-600 text-white focus:border-purple-500"
-                          placeholder="your.email@example.com"
-                          required
-                        />
-                      </div>
-                    </div>
-                    
-                    <div className="space-y-2">
-                      <Label htmlFor="subject" className="text-gray-300">Subject</Label>
-                      <div className="relative">
-                        <span className="absolute left-3 top-3 text-gray-400">
-                          <MessageSquare size={18} />
-                        </span>
-                        <Input
-                          id="subject"
-                          name="subject"
-                          value={formData.subject}
-                          onChange={handleChange}
-                          className="pl-10 bg-gray-700 border-gray-600 text-white focus:border-purple-500"
-                          placeholder="Project inquiry"
-                          required
-                        />
-                      </div>
-                    </div>
-                    
-                    <div className="space-y-2">
-                      <Label htmlFor="message" className="text-gray-300">Message</Label>
-                      <textarea
-                        id="message"
-                        name="message"
-                        value={formData.message}
-                        onChange={handleChange}
-                        rows={6}
-                        className="w-full rounded-md bg-gray-700 border border-gray-600 p-3 text-white focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50"
-                        placeholder="Tell us about your project or inquiry..."
-                        required
-                      />
-                    </div>
-                    
-                    <motion.div
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                    >
-                      <Button 
-                        type="submit" 
-                        className="w-full bg-purple-600 hover:bg-purple-700 text-white py-6 h-auto text-lg"
-                        disabled={isSubmitting}
-                      >
-                        {isSubmitting ? "Sending..." : "Send Message"}
-                      </Button>
-                    </motion.div>
-                  </form>
-                </CardContent>
-              </Card>
-            </motion.div>
-            
-            {/* Contact Info */}
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="space-y-12"
-            >
-              {/* Email Info Card */}
-              <Card className="bg-gray-800 border-gray-700">
-                <CardHeader>
-                  <CardTitle className="text-2xl text-purple-400">Contact Information</CardTitle>
-                  <CardDescription>
-                    Here's how you can reach out to us directly.
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-6">
-                  <div className="flex items-start gap-4">
-                    <div className="p-3 bg-purple-500/20 rounded-full">
-                      <Mail className="h-6 w-6 text-purple-400" />
+              <div className="bg-gray-800 p-8 rounded-lg shadow-lg h-full">
+                <h2 className="text-2xl font-bold mb-6 text-purple-400">Contact Information</h2>
+                
+                <div className="space-y-6">
+                  <div className="flex items-start">
+                    <div className="bg-purple-600/20 p-3 rounded-lg mr-4">
+                      <Mail className="text-purple-400" />
                     </div>
                     <div>
-                      <h3 className="font-medium text-gray-200">Email</h3>
-                      <a href="mailto:ojdevelop3@gmail.com" className="text-purple-400 hover:underline">
-                        ojdevelop3@gmail.com
-                      </a>
+                      <h3 className="font-medium text-white">Email</h3>
+                      <p className="text-gray-400">contact@ojdevelop.com</p>
                     </div>
                   </div>
-                </CardContent>
-              </Card>
-              
-              {/* Social Media Card */}
-              <Card className="bg-gray-800 border-gray-700">
-                <CardHeader>
-                  <CardTitle className="text-2xl text-purple-400">Connect With Us</CardTitle>
-                  <CardDescription>
-                    Follow us on social media for updates and more.
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex flex-col gap-6">
-                    <a 
-                      href="https://discord.gg/pcUnY3W2" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-4 p-4 bg-gray-700 rounded-lg hover:bg-gray-650 transition-colors"
-                    >
-                      <Discord className="h-8 w-8 text-[#5865F2]" />
-                      <div>
-                        <h3 className="font-medium text-white">Discord</h3>
-                        <p className="text-sm text-gray-400">Join our gaming community</p>
-                      </div>
-                    </a>
-                    
-                    <a 
-                      href="https://github.com/ojdevelop234" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-4 p-4 bg-gray-700 rounded-lg hover:bg-gray-650 transition-colors"
-                    >
-                      <Github className="h-8 w-8 text-white" />
-                      <div>
-                        <h3 className="font-medium text-white">GitHub</h3>
-                        <p className="text-sm text-gray-400">Check out our open source projects</p>
-                      </div>
-                    </a>
-                    
-                    <a 
-                      href="https://www.fiverr.com/" 
-                      target="_blank" 
-                      rel="noopener noreferrer" 
-                      className="flex items-center gap-4 p-4 bg-gray-700 rounded-lg hover:bg-gray-650 transition-colors"
-                    >
-                      <Fiverr className="h-8 w-8 text-[#1DBF73]" />
-                      <div>
-                        <h3 className="font-medium text-white">Fiverr</h3>
-                        <p className="text-sm text-gray-400">Hire us for your next project</p>
-                      </div>
-                    </a>
+                  
+                  <div className="flex items-start">
+                    <div className="bg-purple-600/20 p-3 rounded-lg mr-4">
+                      <MapPin className="text-purple-400" />
+                    </div>
+                    <div>
+                      <h3 className="font-medium text-white">Location</h3>
+                      <p className="text-gray-400">San Francisco, CA, United States</p>
+                    </div>
                   </div>
-                </CardContent>
-              </Card>
+                  
+                  <div className="flex items-start">
+                    <div className="bg-purple-600/20 p-3 rounded-lg mr-4">
+                      <Gamepad2 className="text-purple-400" />
+                    </div>
+                    <div>
+                      <h3 className="font-medium text-white">Gaming Platforms</h3>
+                      <p className="text-gray-400">PC, Console, Mobile, VR/AR</p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-start">
+                    <div className="bg-purple-600/20 p-3 rounded-lg mr-4">
+                      <MessageSquare className="text-purple-400" />
+                    </div>
+                    <div>
+                      <h3 className="font-medium text-white">Social</h3>
+                      <div className="flex mt-2 space-x-4">
+                        <a 
+                          href="https://discord.gg/pcUnY3W2" 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="text-gray-400 hover:text-purple-400 transition-colors"
+                        >
+                          Discord
+                        </a>
+                        <a 
+                          href="https://github.com/ojdevelop234" 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="text-gray-400 hover:text-purple-400 transition-colors"
+                        >
+                          GitHub
+                        </a>
+                        <a 
+                          href="https://www.fiverr.com/" 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="text-gray-400 hover:text-purple-400 transition-colors"
+                        >
+                          Fiverr
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+            
+            {/* Contact Form */}
+            <motion.div 
+              className="md:col-span-2"
+              initial={{ opacity: 0, x: 30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
+              <div className="bg-gray-800 p-8 rounded-lg shadow-lg">
+                <h2 className="text-2xl font-bold mb-6 text-purple-400">Send Us a Message</h2>
+                
+                <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <Label htmlFor="name">Your Name</Label>
+                      <Input 
+                        id="name" 
+                        className="bg-gray-700 border-gray-600 focus:border-purple-500" 
+                        placeholder="John Doe"
+                        {...register("name", { required: "Name is required" })}
+                      />
+                      {errors.name && (
+                        <p className="text-red-400 text-sm">{errors.name.message}</p>
+                      )}
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <Label htmlFor="email">Your Email</Label>
+                      <Input 
+                        id="email" 
+                        type="email" 
+                        className="bg-gray-700 border-gray-600 focus:border-purple-500" 
+                        placeholder="john@example.com"
+                        {...register("email", { 
+                          required: "Email is required",
+                          pattern: {
+                            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                            message: "Invalid email address"
+                          }
+                        })}
+                      />
+                      {errors.email && (
+                        <p className="text-red-400 text-sm">{errors.email.message}</p>
+                      )}
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <Label htmlFor="subject">Subject</Label>
+                    <Input 
+                      id="subject" 
+                      className="bg-gray-700 border-gray-600 focus:border-purple-500" 
+                      placeholder="What is this regarding?"
+                      {...register("subject", { required: "Subject is required" })}
+                    />
+                    {errors.subject && (
+                      <p className="text-red-400 text-sm">{errors.subject.message}</p>
+                    )}
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <Label htmlFor="message">Your Message</Label>
+                    <Textarea 
+                      id="message" 
+                      className="bg-gray-700 border-gray-600 focus:border-purple-500 min-h-[150px]" 
+                      placeholder="Tell us about your project..."
+                      {...register("message", { required: "Message is required" })}
+                    />
+                    {errors.message && (
+                      <p className="text-red-400 text-sm">{errors.message.message}</p>
+                    )}
+                  </div>
+                  
+                  <Button 
+                    type="submit" 
+                    disabled={isSubmitting}
+                    className="w-full bg-purple-600 hover:bg-purple-700"
+                  >
+                    {isSubmitting ? (
+                      <span className="flex items-center">
+                        <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        Sending...
+                      </span>
+                    ) : (
+                      <span className="flex items-center">
+                        <Send className="mr-2" size={16} />
+                        Send Message
+                      </span>
+                    )}
+                  </Button>
+                </form>
+              </div>
             </motion.div>
           </div>
         </div>

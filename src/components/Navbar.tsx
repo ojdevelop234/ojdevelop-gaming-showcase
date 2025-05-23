@@ -1,9 +1,7 @@
-
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
-import { StudioLogo } from "./icons/CustomIcons";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -31,6 +29,15 @@ const Navbar = () => {
   // Logo animation variants
   const logoTextChars = "OjDevelop Studio".split("");
   
+  // Colors for gradient animation
+  const gradientColors = [
+    "rgb(93, 135, 255)", // blue
+    "rgb(172, 82, 255)", // purple
+    "rgb(255, 82, 194)", // pink
+    "rgb(172, 82, 255)", // purple
+    "rgb(93, 135, 255)", // blue
+  ];
+  
   return (
     <motion.nav 
       className={`fixed top-0 w-full z-50 transition-all duration-300 ${
@@ -46,18 +53,38 @@ const Navbar = () => {
             className="relative flex items-center"
             whileHover={{ scale: 1.05 }}
           >
-            {/* Animated logo icon */}
+            {/* Logo image */}
             <motion.div
               initial={{ rotate: 0 }}
               animate={{ rotate: 360 }}
               transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-              className="text-purple-400 mr-2"
+              className="mr-3 relative"
+              style={{ width: "40px", height: "40px" }}
             >
-              <StudioLogo size={28} />
+              <img 
+                src="/lovable-uploads/c77fb9d0-be3f-41dc-86d8-309de40b43a9.png" 
+                alt="OjDevelop Studio" 
+                className="w-full h-full object-contain"
+              />
+              
+              {/* Rotating glow effect */}
+              <motion.div
+                className="absolute inset-0 rounded-full blur-md -z-10"
+                animate={{
+                  background: [
+                    "rgba(93, 135, 255, 0.6)",
+                    "rgba(172, 82, 255, 0.6)",
+                    "rgba(255, 82, 194, 0.6)",
+                    "rgba(172, 82, 255, 0.6)",
+                    "rgba(93, 135, 255, 0.6)"
+                  ]
+                }}
+                transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+              />
             </motion.div>
             
             {/* Animated text */}
-            <div className="flex items-center text-2xl font-bold">
+            <div className="flex items-center">
               {logoTextChars.map((char, i) => (
                 <motion.span
                   key={i}
@@ -68,21 +95,45 @@ const Navbar = () => {
                     duration: 0.3,
                     ease: "easeOut" 
                   }}
-                  className={char === " " ? "mr-2" : "text-purple-400"}
+                  className="text-2xl font-extrabold"
+                  style={{
+                    marginRight: char === " " ? "0.5rem" : "0rem",
+                    textShadow: "0 0 5px rgba(255,255,255,0.3)",
+                    fontFamily: "'Audiowide', 'Orbitron', sans-serif",
+                  }}
                 >
-                  {char}
+                  <motion.span
+                    animate={{
+                      color: gradientColors,
+                    }}
+                    transition={{
+                      duration: 8,
+                      repeat: Infinity,
+                      repeatType: "mirror",
+                      delay: i * 0.2 % 2,
+                    }}
+                  >
+                    {char}
+                  </motion.span>
                 </motion.span>
               ))}
             </div>
             
             {/* Glowing effect */}
             <motion.div 
-              className="absolute -inset-1 rounded-full bg-purple-500/20 blur-lg -z-10"
+              className="absolute -inset-1 rounded-full bg-blue-500/20 blur-lg -z-10"
               animate={{ 
                 opacity: [0.4, 0.8, 0.4],
-                scale: [0.9, 1.05, 0.9]
+                scale: [0.9, 1.05, 0.9],
+                background: [
+                  "rgba(93, 135, 255, 0.3)",
+                  "rgba(172, 82, 255, 0.3)",
+                  "rgba(255, 82, 194, 0.3)",
+                  "rgba(172, 82, 255, 0.3)",
+                  "rgba(93, 135, 255, 0.3)"
+                ]
               }}
-              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
             />
           </motion.div>
         </Link>
