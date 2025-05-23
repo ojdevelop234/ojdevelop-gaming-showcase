@@ -176,7 +176,7 @@ const Contact = () => {
                         {...register("name", { required: "Name is required" })}
                       />
                       {errors.name && (
-                        <p className="text-red-400 text-sm">{errors.name.message}</p>
+                        <p className="text-red-400 text-sm">{String(errors.name.message)}</p>
                       )}
                     </div>
                     
@@ -196,7 +196,7 @@ const Contact = () => {
                         })}
                       />
                       {errors.email && (
-                        <p className="text-red-400 text-sm">{errors.email.message}</p>
+                        <p className="text-red-400 text-sm">{String(errors.email.message)}</p>
                       )}
                     </div>
                   </div>
@@ -210,7 +210,7 @@ const Contact = () => {
                       {...register("subject", { required: "Subject is required" })}
                     />
                     {errors.subject && (
-                      <p className="text-red-400 text-sm">{errors.subject.message}</p>
+                      <p className="text-red-400 text-sm">{String(errors.subject.message)}</p>
                     )}
                   </div>
                   
@@ -223,7 +223,7 @@ const Contact = () => {
                       {...register("message", { required: "Message is required" })}
                     />
                     {errors.message && (
-                      <p className="text-red-400 text-sm">{errors.message.message}</p>
+                      <p className="text-red-400 text-sm">{String(errors.message.message)}</p>
                     )}
                   </div>
                   
