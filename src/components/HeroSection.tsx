@@ -3,6 +3,7 @@ import { useState } from "react";
 import { motion, useMotionValue, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Code } from "lucide-react";
+import TypedText from "./TypedText";
 
 const HeroSection = () => {
   const [hovered, setHovered] = useState<string | null>(null);
@@ -19,15 +20,32 @@ const HeroSection = () => {
     document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
   };
 
+  // Game development terms for the typing animation
+  const gameDevelopmentTerms = [
+    "Game concept & design",
+    "High-quality 2D/3D assets",
+    "Smooth gameplay mechanics",
+    "Cross-platform support",
+    "Clean, optimized code",
+    "UI/UX design",
+    "Multiplayer",
+    "Monetization options",
+    "Regular updates & communication",
+    "Testing & bug fixing",
+    "Post-launch support",
+    "Store publishing help"
+  ];
+
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background image with overlay */}
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat z-0" 
         style={{
-          backgroundImage: 'url(/lovable-uploads/ffeffba4-c81d-4d58-81da-0f9ed94832eb.png)',
-          filter: 'brightness(0.2) saturate(1.2)',
-          backgroundPosition: 'center top'
+          backgroundImage: 'url(/lovable-uploads/ea23158e-4cd2-4c40-93c5-d52302f8dd03.png)',
+          filter: 'brightness(0.25) saturate(1.2)',
+          backgroundPosition: 'center',
+          backgroundSize: 'cover'
         }}
       />
       
@@ -72,6 +90,21 @@ const HeroSection = () => {
         className="relative z-10 text-center px-4 max-w-4xl"
         onMouseMove={handleMouseMove}
       >
+        {/* Typed Text Animation */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="mb-4"
+        >
+          <TypedText 
+            texts={gameDevelopmentTerms} 
+            className="text-lg md:text-xl"
+            typingSpeed={80}
+            deletingSpeed={30}
+          />
+        </motion.div>
+        
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -117,69 +150,89 @@ const HeroSection = () => {
           transition={{ duration: 0.8, delay: 0.8 }}
           className="flex flex-wrap gap-6 justify-center"
         >
-          <motion.div 
-            whileHover={{ scale: 1.05 }} 
-            whileTap={{ scale: 0.95 }}
-            onHoverStart={() => setHovered("primary")}
-            onHoverEnd={() => setHovered(null)}
+          {/* Updated button with new animations */}
+          <Button 
+            onClick={handleScrollToProjects}
+            size="sm"
+            className="relative overflow-hidden bg-purple-600 hover:bg-purple-700 px-5 py-1 h-9 group"
+            variant="default"
+            asChild
           >
-            <Button 
-              onClick={handleScrollToProjects}
-              size="sm"
-              className="relative overflow-hidden bg-purple-600 hover:bg-purple-700 border-2 border-transparent group px-6 py-2"
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ type: "spring", stiffness: 500, damping: 15 }}
             >
-              {/* Button glint effect */}
-              {hovered === "primary" && (
-                <motion.span 
-                  className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white to-transparent opacity-20" 
-                  initial={{ x: "-100%" }}
-                  animate={{ x: "100%" }}
-                  transition={{ duration: 0.8 }}
-                />
-              )}
-              
               <span className="relative z-10 inline-flex items-center">
                 <span>View My Work</span>
-                <motion.span 
+                <motion.span
                   initial={{ x: -5, opacity: 0 }}
-                  animate={hovered === "primary" ? { x: 5, opacity: 1 } : { x: -5, opacity: 0 }}
-                  transition={{ duration: 0.3 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  transition={{ delay: 0.2 }}
                   className="ml-1"
                 >
-                  →
+                  <motion.span
+                    animate={{ x: [0, 5, 0] }}
+                    transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+                  >
+                    →
+                  </motion.span>
                 </motion.span>
               </span>
-            </Button>
-          </motion.div>
-          
-          <motion.div 
-            whileHover={{ scale: 1.05 }} 
-            whileTap={{ scale: 0.95 }}
-            onHoverStart={() => setHovered("secondary")}
-            onHoverEnd={() => setHovered(null)}
-          >
-            <Button 
-              variant="outline" 
-              size="sm"
-              className="relative overflow-hidden border-2 border-purple-500 text-purple-400 hover:bg-purple-500/20 px-6 py-2"
-              onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
-            >
-              {/* Button glint effect */}
-              {hovered === "secondary" && (
-                <motion.span 
-                  className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-purple-300 to-transparent opacity-20" 
-                  initial={{ x: "-100%" }}
-                  animate={{ x: "100%" }}
-                  transition={{ duration: 0.8 }}
-                />
-              )}
               
+              {/* Animated background effect */}
+              <motion.div 
+                className="absolute inset-0 bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700"
+                initial={{ opacity: 0 }}
+                whileHover={{ opacity: 1 }}
+                transition={{ duration: 0.3 }}
+              />
+              
+              <motion.div 
+                className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-20"
+                initial={{ x: "-100%" }}
+                whileHover={{ x: "100%" }}
+                transition={{ duration: 1, repeat: Infinity, repeatType: "loop" }}
+              />
+            </motion.div>
+          </Button>
+          
+          {/* Second button */}
+          <Button 
+            variant="outline" 
+            size="sm"
+            className="relative overflow-hidden border-2 border-purple-500 text-purple-400 hover:bg-purple-500/20 px-5 py-1 h-9"
+            onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
+            asChild
+          >
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ type: "spring", stiffness: 500, damping: 15 }}
+            >
               <span className="relative z-10 inline-flex items-center">
-                <Code className="mr-2" size={18} />
+                <Code className="mr-2" size={16} />
                 <span>Get In Touch</span>
               </span>
-            </Button>
-          </motion.div>
+              
+              {/* Border glow animation */}
+              <motion.span
+                className="absolute inset-0 border-2 border-purple-400 rounded-md"
+                animate={{ 
+                  boxShadow: ["0 0 0px rgba(167, 139, 250, 0)", "0 0 8px rgba(167, 139, 250, 0.5)", "0 0 0px rgba(167, 139, 250, 0)"] 
+                }}
+                transition={{ duration: 2, repeat: Infinity }}
+              />
+              
+              {/* Glint animation */}
+              <motion.div 
+                className="absolute inset-0 bg-gradient-to-r from-transparent via-purple-300 to-transparent opacity-20"
+                initial={{ x: "-100%" }}
+                whileHover={{ x: "100%" }}
+                transition={{ duration: 1, repeat: Infinity, repeatType: "loop" }}
+              />
+            </motion.div>
+          </Button>
         </motion.div>
       </div>
 

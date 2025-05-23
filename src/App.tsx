@@ -1,5 +1,5 @@
 
-import { Suspense, lazy } from "react";
+import { Suspense, lazy, memo } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -16,11 +16,23 @@ const Portfolio = lazy(() => import("./pages/Portfolio"));
 const Contact = lazy(() => import("./pages/Contact"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
+// Loading fallback component
+const LoadingFallback = memo(() => (
+  <div className="min-h-screen flex items-center justify-center bg-gray-900">
+    <span className="text-purple-400 text-xl">Loading...</span>
+  </div>
+));
+
+LoadingFallback.displayName = "LoadingFallback";
+
+// Set up Query Client with performance optimizations
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       refetchOnWindowFocus: false,
       retry: 1,
+      staleTime: 60 * 1000, // 1 minute
+      cacheTime: 5 * 60 * 1000, // 5 minutes
     },
   },
 });
@@ -36,7 +48,7 @@ const App = () => (
         </AnimatePresence>
         <CustomCursor />
         <ScrollToTop />
-        <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-gray-900"><span className="text-purple-400 text-xl">Loading...</span></div>}>
+        <Suspense fallback={<LoadingFallback />}>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/portfolio" element={<Portfolio />} />

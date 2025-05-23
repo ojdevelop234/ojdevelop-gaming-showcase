@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
@@ -9,6 +10,7 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { Github, Mail, MessageSquare, User } from "lucide-react";
 import { Discord, Fiverr } from "@/components/icons/CustomIcons";
+import AnimatedSectionTitle from "@/components/AnimatedSectionTitle";
 
 const Contact = () => {
   const { toast } = useToast();
@@ -33,7 +35,7 @@ const Contact = () => {
     setIsSubmitting(true);
     
     try {
-      const response = await fetch("https://formspree.io/f/mrbqjnpe", {
+      const response = await fetch("https://formspree.io/f/mwpojray", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -85,18 +87,11 @@ const Contact = () => {
           }}
         />
         <div className="container mx-auto relative z-10">
-          <motion.div 
-            className="text-center mb-16 max-w-3xl mx-auto"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <h1 className="text-5xl font-bold mb-6 text-purple-400">Get In Touch</h1>
-            <p className="text-lg text-gray-300">
-              Have a project in mind or questions about our services? We'd love to hear from you!
-              Fill out the form below and we'll get back to you as soon as possible.
-            </p>
-          </motion.div>
+          <AnimatedSectionTitle 
+            title="Get In Touch" 
+            subtitle="Have a project in mind or questions about our services? We'd love to hear from you!
+            Fill out the form below and we'll get back to you as soon as possible."
+          />
         </div>
       </section>
       
@@ -246,7 +241,7 @@ const Contact = () => {
                 <CardContent>
                   <div className="flex flex-col gap-6">
                     <a 
-                      href="https://discord.com/" 
+                      href="https://discord.gg/pcUnY3W2" 
                       target="_blank" 
                       rel="noopener noreferrer"
                       className="flex items-center gap-4 p-4 bg-gray-700 rounded-lg hover:bg-gray-650 transition-colors"
@@ -259,7 +254,7 @@ const Contact = () => {
                     </a>
                     
                     <a 
-                      href="https://github.com/" 
+                      href="https://github.com/ojdevelop234" 
                       target="_blank" 
                       rel="noopener noreferrer"
                       className="flex items-center gap-4 p-4 bg-gray-700 rounded-lg hover:bg-gray-650 transition-colors"
@@ -272,7 +267,7 @@ const Contact = () => {
                     </a>
                     
                     <a 
-                      href="https://fiverr.com/" 
+                      href="https://www.fiverr.com/" 
                       target="_blank" 
                       rel="noopener noreferrer" 
                       className="flex items-center gap-4 p-4 bg-gray-700 rounded-lg hover:bg-gray-650 transition-colors"
@@ -288,101 +283,6 @@ const Contact = () => {
               </Card>
             </motion.div>
           </div>
-        </div>
-      </section>
-      
-      {/* FAQ Section */}
-      <section className="py-20 px-4 bg-gray-850 bg-opacity-30">
-        <div className="container mx-auto max-w-4xl">
-          <motion.div 
-            className="text-center mb-16"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-4xl font-bold mb-6 text-purple-400">Frequently Asked Questions</h2>
-            <p className="text-lg text-gray-300">
-              Have questions about our game development services? We've got answers!
-            </p>
-          </motion.div>
-          
-          <div className="grid gap-6">
-            {[
-              { 
-                q: "What types of games do you develop?", 
-                a: "We specialize in a wide range of game types including 3D and 2D games, game environments, visual effects, and Roblox games. Our team has experience across multiple platforms and genres." 
-              },
-              { 
-                q: "How long does it take to develop a game?", 
-                a: "Development timelines vary greatly depending on the scope, complexity, and scale of the project. A simple mobile game might take 3-6 months, while a more complex 3D game could take a year or more." 
-              },
-              { 
-                q: "What is your pricing structure?", 
-                a: "We offer customized pricing based on project requirements. After an initial consultation, we provide a detailed proposal outlining costs, milestones, and deliverables." 
-              },
-              { 
-                q: "Do you offer ongoing support after game launch?", 
-                a: "Yes! We provide post-launch support packages to help with updates, bug fixes, and new features to ensure your game continues to perform well." 
-              },
-              { 
-                q: "Can you help with publishing my game?", 
-                a: "Absolutely. We can guide you through the publishing process for various platforms including Steam, mobile app stores, and console marketplaces." 
-              }
-            ].map((item, i) => (
-              <motion.div 
-                key={i}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                viewport={{ once: true }}
-              >
-                <Card className="bg-gray-800 border-gray-700">
-                  <CardHeader>
-                    <CardTitle className="text-xl text-purple-300">{item.q}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-gray-300">{item.a}</p>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-      
-      {/* CTA Section */}
-      <section className="py-24 px-4 relative">
-        <div 
-          className="absolute inset-0 bg-cover bg-center bg-fixed opacity-20 z-0" 
-          style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1531297484001-80022131f5a1)' }}
-        />
-        
-        <div className="container mx-auto relative z-10">
-          <motion.div 
-            className="max-w-4xl mx-auto text-center bg-gray-800/80 backdrop-blur-sm p-12 rounded-2xl border border-gray-700"
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-4xl font-bold mb-6 text-purple-400">Let's Create Something Amazing Together</h2>
-            <p className="text-lg mb-8 text-gray-300">
-              Whether you have a specific project in mind or need help defining your vision, 
-              we're here to assist at every step of your game development journey.
-            </p>
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Button 
-                onClick={() => document.querySelector('form')?.scrollIntoView({ behavior: 'smooth' })}
-                className="bg-purple-600 hover:bg-purple-700 text-lg px-6 py-6 h-auto"
-              >
-                Contact Us Now
-              </Button>
-            </motion.div>
-          </motion.div>
         </div>
       </section>
       
