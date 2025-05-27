@@ -15,7 +15,7 @@ const projectsData = [
     description: "A space exploration adventure with procedurally generated planets.",
     image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b",
     category: "3D Game",
-    tags: ["Unity", "C#", "Procedural Generation"]
+    technologies: ["Unity", "C#", "Procedural Generation"]
   },
   {
     id: 2,
@@ -23,7 +23,7 @@ const projectsData = [
     description: "Retro-style action platformer with modern gameplay mechanics.",
     image: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7",
     category: "2D Game",
-    tags: ["Unity", "C#", "Pixel Art"]
+    technologies: ["Unity", "C#", "Pixel Art"]
   },
   {
     id: 3,
@@ -31,7 +31,7 @@ const projectsData = [
     description: "Fantasy environments with realistic lighting and physics simulations.",
     image: "https://images.unsplash.com/photo-1531297484001-80022131f5a1",
     category: "Game Environments",
-    tags: ["Unreal Engine", "C++", "Environment Design"]
+    technologies: ["Unreal Engine", "C++", "Environment Design"]
   },
   {
     id: 4,
@@ -39,7 +39,7 @@ const projectsData = [
     description: "Next-gen visual effects system for explosive game moments.",
     image: "https://images.unsplash.com/photo-1470813740244-df37b8c1edcb",
     category: "Game VFX",
-    tags: ["Unity", "Shader Graph", "VFX"]
+    technologies: ["Unity", "Shader Graph", "VFX"]
   },
   {
     id: 5,
@@ -47,7 +47,7 @@ const projectsData = [
     description: "Procedurally generated dungeons with roguelike elements.",
     image: "https://images.unsplash.com/photo-1551103782-8ab07afd45c1",
     category: "3D Game",
-    tags: ["Unity", "C#", "AI"]
+    technologies: ["Unity", "C#", "AI"]
   },
   {
     id: 6,
@@ -55,7 +55,7 @@ const projectsData = [
     description: "Futuristic racing game with dynamic tracks and physics.",
     image: "https://images.unsplash.com/photo-1563089145-599997674d42",
     category: "3D Game",
-    tags: ["Unreal Engine", "Blueprint", "Physics"]
+    technologies: ["Unreal Engine", "Blueprint", "Physics"]
   },
   {
     id: 7,
@@ -63,7 +63,7 @@ const projectsData = [
     description: "Real-time strategy game with advanced AI opponents.",
     image: "https://images.unsplash.com/photo-1511512578047-dfb367046420",
     category: "Strategy",
-    tags: ["Unity", "C#", "AI"]
+    technologies: ["Unity", "C#", "AI"]
   },
   {
     id: 8,
@@ -71,7 +71,7 @@ const projectsData = [
     description: "Immersive virtual reality adventure set in alien worlds.",
     image: "https://images.unsplash.com/photo-1593508512255-86ab42a8e620",
     category: "VR",
-    tags: ["Unity", "C#", "VR"]
+    technologies: ["Unity", "C#", "VR"]
   }
 ];
 
