@@ -111,7 +111,7 @@ const HeroSection = () => {
           transition={{ duration: 0.8, delay: 0.2 }}
         >
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6">
-            <span className="text-white">Hi, I'm </span>
+            <span className="text-white">Hi, we're </span>
             <motion.span 
               className="text-purple-400 inline-block"
               whileHover={{ 
@@ -119,7 +119,7 @@ const HeroSection = () => {
                 textShadow: "0 0 15px rgba(196, 181, 253, 0.5)" 
               }}
             >
-              Alex Gamer
+              Oj Develop Studio
             </motion.span>
           </h1>
         </motion.div>
@@ -130,7 +130,7 @@ const HeroSection = () => {
           transition={{ duration: 0.8, delay: 0.4 }}
         >
           <h2 className="text-xl md:text-3xl font-light mb-8 text-gray-300">
-            Game Developer & Interactive Experience Creator
+            Game Developers & Interactive Experience Creator
           </h2>
         </motion.div>
 
