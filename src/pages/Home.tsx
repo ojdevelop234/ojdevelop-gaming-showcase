@@ -11,6 +11,7 @@ import ProcessSection from "@/components/ProcessSection";
 import AboutSection from "@/components/AboutSection";
 import CallToAction from "@/components/CallToAction";
 import TestimonialsCarousel from "@/components/TestimonialsCarousel";
+import TechStackSection from "@/components/TechStackSection";
 
 // Lazy load components for better performance
 const FeaturedProjectCard = lazy(() => import("@/components/FeaturedProjectCard"));
@@ -143,6 +144,9 @@ const Home = () => {
       
       {/* Skills Section */}
       <SkillSection skills={skills} />
+      
+      {/* Tech Stack Section - New styled component */}
+      <TechStackSection />
       
       {/* Services Section */}
       <section id="services" className="py-24 px-4">
