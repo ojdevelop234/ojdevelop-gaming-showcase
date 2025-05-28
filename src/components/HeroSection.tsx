@@ -20,20 +20,14 @@ const HeroSection = () => {
     document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
   };
 
-  // Game development terms for the typing animation
+  // Reduced game development terms for better performance
   const gameDevelopmentTerms = [
     "Game concept & design",
     "High-quality 2D/3D assets",
     "Smooth gameplay mechanics",
     "Cross-platform support",
     "Clean, optimized code",
-    "UI/UX design",
-    "Multiplayer",
-    "Monetization options",
-    "Regular updates & communication",
-    "Testing & bug fixing",
-    "Post-launch support",
-    "Store publishing help"
+    "UI/UX design"
   ];
 
   return (
@@ -49,21 +43,21 @@ const HeroSection = () => {
         }}
       />
       
-      {/* Grain texture */}
+      {/* Simplified grain texture for mobile */}
       <div 
-        className="absolute inset-0 z-0 opacity-20"
+        className="absolute inset-0 z-0 opacity-10 hidden md:block"
         style={{
           backgroundImage: "url('data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E')",
           mixBlendMode: "overlay"
         }}
       />
       
-      {/* Animated particles/code fragments */}
-      <div className="absolute inset-0 z-0">
-        {[...Array(20)].map((_, i) => (
+      {/* Reduced animated particles for better performance */}
+      <div className="absolute inset-0 z-0 hidden md:block">
+        {[...Array(8)].map((_, i) => (
           <motion.div
             key={i}
-            className="absolute text-purple-500/30 text-xs md:text-sm font-mono"
+            className="absolute text-purple-500/20 text-xs font-mono"
             initial={{ 
               x: Math.random() * 100 - 50 + "%", 
               y: Math.random() * 100 + "%",
@@ -71,16 +65,15 @@ const HeroSection = () => {
             }}
             animate={{ 
               y: [Math.random() * 100 + "%", Math.random() * 100 + "%"],
-              opacity: [0.1, 0.3, 0.1],
-              scale: [1, 1.2, 1]
+              opacity: [0.1, 0.2, 0.1]
             }}
             transition={{
-              duration: Math.random() * 10 + 10,
+              duration: Math.random() * 15 + 15,
               repeat: Infinity,
               repeatType: "reverse"
             }}
           >
-            {["{", "}", "()", "[]", "&&", "||", "=>", "class", "const", "function"][i % 10]}
+            {["{", "}", "()", "[]", "&&", "||", "=>", "class"][i % 8]}
           </motion.div>
         ))}
       </div>
@@ -94,23 +87,23 @@ const HeroSection = () => {
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 0.6 }}
           className="mb-4"
         >
           <TypedText 
             texts={gameDevelopmentTerms} 
             className="text-lg md:text-xl"
-            typingSpeed={80}
-            deletingSpeed={30}
+            typingSpeed={100}
+            deletingSpeed={50}
           />
         </motion.div>
         
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
         >
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6">
+          <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-6">
             <span className="text-white">Hi, we're </span>
             <motion.span 
               className="text-purple-400 inline-block"
@@ -127,18 +120,18 @@ const HeroSection = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
         >
-          <h2 className="text-xl md:text-3xl font-light mb-8 text-gray-300">
+          <h2 className="text-lg md:text-2xl font-light mb-8 text-gray-300">
             Game Developers & Interactive Experience Creator
           </h2>
         </motion.div>
 
         <motion.p
-          className="text-lg md:text-xl mb-10 max-w-2xl mx-auto text-gray-400"
+          className="text-base md:text-lg mb-10 max-w-2xl mx-auto text-gray-400"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
         >
           Crafting immersive digital worlds and memorable gaming experiences
           through creative coding and thoughtful game design.
@@ -147,105 +140,52 @@ const HeroSection = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.8 }}
-          className="flex flex-wrap gap-6 justify-center"
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="flex flex-col sm:flex-row gap-4 justify-center"
         >
-          {/* Updated button with new animations */}
+          {/* Simplified button animations */}
           <Button 
             onClick={handleScrollToProjects}
             size="sm"
-            className="relative overflow-hidden bg-purple-600 hover:bg-purple-700 px-5 py-1 h-9 group"
+            className="relative overflow-hidden bg-purple-600 hover:bg-purple-700 px-5 py-2 h-10 group transition-all duration-200"
             variant="default"
-            asChild
           >
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              transition={{ type: "spring", stiffness: 500, damping: 15 }}
-            >
-              <span className="relative z-10 inline-flex items-center">
-                <span>View My Work</span>
-                <motion.span
-                  initial={{ x: -5, opacity: 0 }}
-                  animate={{ x: 0, opacity: 1 }}
-                  transition={{ delay: 0.2 }}
-                  className="ml-1"
-                >
-                  <motion.span
-                    animate={{ x: [0, 5, 0] }}
-                    transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-                  >
-                    →
-                  </motion.span>
-                </motion.span>
-              </span>
-              
-              {/* Animated background effect */}
-              <motion.div 
-                className="absolute inset-0 bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700"
-                initial={{ opacity: 0 }}
-                whileHover={{ opacity: 1 }}
-                transition={{ duration: 0.3 }}
-              />
-              
-              <motion.div 
-                className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-20"
-                initial={{ x: "-100%" }}
-                whileHover={{ x: "100%" }}
-                transition={{ duration: 1, repeat: Infinity, repeatType: "loop" }}
-              />
-            </motion.div>
+            <span className="relative z-10 inline-flex items-center">
+              <span>View My Work</span>
+              <motion.span
+                animate={{ x: [0, 3, 0] }}
+                transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+                className="ml-2"
+              >
+                →
+              </motion.span>
+            </span>
           </Button>
           
-          {/* Second button */}
           <Button 
             variant="outline" 
             size="sm"
-            className="relative overflow-hidden border-2 border-purple-500 text-purple-400 hover:bg-purple-500/20 px-5 py-1 h-9"
+            className="relative overflow-hidden border-2 border-purple-500 text-purple-400 hover:bg-purple-500/20 px-5 py-2 h-10 transition-all duration-200"
             onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
-            asChild
           >
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              transition={{ type: "spring", stiffness: 500, damping: 15 }}
-            >
-              <span className="relative z-10 inline-flex items-center">
-                <Code className="mr-2" size={16} />
-                <span>Get In Touch</span>
-              </span>
-              
-              {/* Border glow animation */}
-              <motion.span
-                className="absolute inset-0 border-2 border-purple-400 rounded-md"
-                animate={{ 
-                  boxShadow: ["0 0 0px rgba(167, 139, 250, 0)", "0 0 8px rgba(167, 139, 250, 0.5)", "0 0 0px rgba(167, 139, 250, 0)"] 
-                }}
-                transition={{ duration: 2, repeat: Infinity }}
-              />
-              
-              {/* Glint animation */}
-              <motion.div 
-                className="absolute inset-0 bg-gradient-to-r from-transparent via-purple-300 to-transparent opacity-20"
-                initial={{ x: "-100%" }}
-                whileHover={{ x: "100%" }}
-                transition={{ duration: 1, repeat: Infinity, repeatType: "loop" }}
-              />
-            </motion.div>
+            <span className="relative z-10 inline-flex items-center">
+              <Code className="mr-2" size={16} />
+              <span>Get In Touch</span>
+            </span>
           </Button>
         </motion.div>
       </div>
 
-      {/* Scroll indicator */}
+      {/* Simplified scroll indicator */}
       <motion.div 
-        className="absolute bottom-10 left-1/2 transform -translate-x-1/2"
-        animate={{ y: [0, 10, 0] }}
+        className="absolute bottom-10 left-1/2 transform -translate-x-1/2 hidden md:block"
+        animate={{ y: [0, 8, 0] }}
         transition={{ duration: 1.5, repeat: Infinity }}
       >
-        <div className="w-8 h-12 rounded-full border-2 border-purple-400 flex justify-center">
+        <div className="w-6 h-10 rounded-full border-2 border-purple-400 flex justify-center">
           <motion.div 
-            className="w-2 h-3 bg-purple-400 rounded-full mt-2"
-            animate={{ y: [0, 16, 0] }}
+            className="w-1 h-2 bg-purple-400 rounded-full mt-2"
+            animate={{ y: [0, 12, 0] }}
             transition={{ duration: 1.5, repeat: Infinity }}
           />
         </div>

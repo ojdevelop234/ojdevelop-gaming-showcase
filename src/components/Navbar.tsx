@@ -11,33 +11,18 @@ const Navbar = () => {
   
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 20) {
-        setScrolled(true);
-      } else {
-        setScrolled(false);
-      }
+      setScrolled(window.scrollY > 20);
     };
     
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
   
-  // Close mobile menu when route changes
   useEffect(() => {
     setIsOpen(false);
   }, [location]);
 
-  // Logo animation variants
   const logoTextChars = "OjDevelop Studio".split("");
-  
-  // Colors for gradient animation
-  const gradientColors = [
-    "rgb(93, 135, 255)", // blue
-    "rgb(172, 82, 255)", // purple
-    "rgb(255, 82, 194)", // pink
-    "rgb(172, 82, 255)", // purple
-    "rgb(93, 135, 255)", // blue
-  ];
   
   return (
     <motion.nav 
@@ -46,15 +31,16 @@ const Navbar = () => {
       }`}
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
+      transition={{ duration: 0.3 }}
     >
       <div className="container mx-auto px-4 flex justify-between items-center">
         <Link to="/" className="flex items-center gap-2">
           <motion.div 
             className="relative flex items-center"
-            whileHover={{ scale: 1.05 }}
+            whileHover={{ scale: 1.02 }}
+            transition={{ duration: 0.2 }}
           >
-            {/* Logo image - now circular and stable */}
+            {/* Simplified logo */}
             <div
               className="mr-3 relative rounded-full overflow-hidden border-2 border-purple-500 flex items-center justify-center"
               style={{ width: "40px", height: "40px" }}
@@ -64,65 +50,29 @@ const Navbar = () => {
                 alt="OjDevelop Studio" 
                 className="w-full h-full object-cover"
               />
-              
-              {/* Static glow effect */}
-              <div
-                className="absolute inset-0 rounded-full blur-md -z-10 bg-purple-500/40"
-              />
             </div>
             
-            {/* Animated text */}
+            {/* Simplified animated text */}
             <div className="flex items-center">
               {logoTextChars.map((char, i) => (
                 <motion.span
                   key={i}
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
                   transition={{ 
-                    delay: i * 0.05,
-                    duration: 0.3,
-                    ease: "easeOut" 
+                    delay: i * 0.03,
+                    duration: 0.2
                   }}
-                  className="text-2xl font-extrabold"
+                  className="text-xl md:text-2xl font-bold text-purple-400"
                   style={{
                     marginRight: char === " " ? "0.5rem" : "0rem",
-                    textShadow: "0 0 5px rgba(255,255,255,0.3)",
                     fontFamily: "'Audiowide', 'Orbitron', sans-serif",
                   }}
                 >
-                  <motion.span
-                    animate={{
-                      color: gradientColors,
-                    }}
-                    transition={{
-                      duration: 8,
-                      repeat: Infinity,
-                      repeatType: "mirror",
-                      delay: i * 0.2 % 2,
-                    }}
-                  >
-                    {char}
-                  </motion.span>
+                  {char}
                 </motion.span>
               ))}
             </div>
-            
-            {/* Glowing effect */}
-            <motion.div 
-              className="absolute -inset-1 rounded-full bg-blue-500/20 blur-lg -z-10"
-              animate={{ 
-                opacity: [0.4, 0.8, 0.4],
-                scale: [0.9, 1.05, 0.9],
-                background: [
-                  "rgba(93, 135, 255, 0.3)",
-                  "rgba(172, 82, 255, 0.3)",
-                  "rgba(255, 82, 194, 0.3)",
-                  "rgba(172, 82, 255, 0.3)",
-                  "rgba(93, 135, 255, 0.3)"
-                ]
-              }}
-              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-            />
           </motion.div>
         </Link>
         
@@ -135,7 +85,7 @@ const Navbar = () => {
         <div className="md:hidden">
           <button 
             onClick={() => setIsOpen(!isOpen)}
-            className="text-white focus:outline-none"
+            className="text-white focus:outline-none transition-colors duration-200"
           >
             {isOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
@@ -149,7 +99,7 @@ const Navbar = () => {
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: "auto" }}
           exit={{ opacity: 0, height: 0 }}
-          transition={{ duration: 0.3 }}
+          transition={{ duration: 0.2 }}
         >
           <div className="flex flex-col items-center py-4 space-y-4">
             <NavLinks mobile />
@@ -180,18 +130,18 @@ const NavLinks = ({ mobile = false }: { mobile?: boolean }) => {
           >
             <span className={`${
               isActive ? "text-purple-400" : "text-gray-300 hover:text-white"
-            } transition-colors`}>
+            } transition-colors duration-200`}>
               {link.name}
             </span>
             {isActive && (
               <motion.div
                 className="absolute bottom-0 left-0 w-full h-0.5 bg-purple-400"
                 layoutId="navbar-indicator"
-                transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                transition={{ type: "spring", stiffness: 400, damping: 30 }}
               />
             )}
             {!isActive && (
-              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-purple-400 group-hover:w-full transition-all duration-300" />
+              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-purple-400 group-hover:w-full transition-all duration-200" />
             )}
           </Link>
         );
