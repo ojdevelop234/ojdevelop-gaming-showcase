@@ -1,5 +1,4 @@
-
-import { useState, Suspense, lazy } from "react";
+import { useState, Suspense } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
@@ -12,9 +11,7 @@ import AboutSection from "@/components/AboutSection";
 import CallToAction from "@/components/CallToAction";
 import TestimonialsCarousel from "@/components/TestimonialsCarousel";
 import TechStackSection from "@/components/TechStackSection";
-
-// Lazy load components for better performance
-const FeaturedProjectCard = lazy(() => import("@/components/FeaturedProjectCard"));
+import FeaturedProjectCard from "@/components/FeaturedProjectCard";
 
 const Home = () => {
   const skills = [
@@ -184,17 +181,9 @@ const Home = () => {
           </motion.div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 mb-12">
-            <Suspense fallback={
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 col-span-full">
-                {[...Array(4)].map((_, i) => (
-                  <div key={i} className="h-64 bg-gray-800 animate-pulse rounded-lg"></div>
-                ))}
-              </div>
-            }>
-              {featuredProjects.map((project) => (
-                <FeaturedProjectCard key={project.id} project={project} />
-              ))}
-            </Suspense>
+            {featuredProjects.map((project) => (
+              <FeaturedProjectCard key={project.id} project={project} />
+            ))}
           </div>
           
           <motion.div
@@ -244,7 +233,6 @@ const Home = () => {
   );
 };
 
-// Simplified AnimatedServiceCard Component
 const AnimatedServiceCard = ({ service, index }: { service: any, index: number }) => {
   const [isHovered, setIsHovered] = useState(false);
   
