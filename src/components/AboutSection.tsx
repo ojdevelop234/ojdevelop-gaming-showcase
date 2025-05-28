@@ -77,7 +77,7 @@ const AboutSection = () => {
   }, []);
   
   return (
-    <section ref={containerRef} id="about" className="py-24 px-4 relative overflow-hidden">
+    <section ref={containerRef} id="about" className="py-16 md:py-24 px-4 relative overflow-hidden">
       {/* Background particles */}
       {particles.map((particle) => (
         <motion.div
@@ -110,15 +110,15 @@ const AboutSection = () => {
           subtitle="Passionate about creating amazing game experiences that captivate players"
         />
         
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-16 items-start">
           {/* Studio journey timeline */}
-          <div className="space-y-16">
+          <div className="space-y-8 md:space-y-16 order-2 lg:order-1">
             <div>
-              <h3 className="text-2xl font-bold text-purple-300 mb-6">Our Journey</h3>
+              <h3 className="text-xl md:text-2xl font-bold text-purple-300 mb-4 md:mb-6">Our Journey</h3>
               
-              <div className="space-y-10 relative">
-                {/* Timeline line */}
-                <div className="absolute top-0 bottom-0 left-[18px] w-1 bg-gradient-to-b from-purple-500/20 via-purple-500/60 to-purple-500/20"></div>
+              <div className="space-y-6 md:space-y-10 relative">
+                {/* Timeline line - Mobile optimized */}
+                <div className="absolute top-0 bottom-0 left-[14px] md:left-[18px] w-0.5 md:w-1 bg-gradient-to-b from-purple-500/20 via-purple-500/60 to-purple-500/20"></div>
                 
                 {/* Timeline items */}
                 {[
@@ -145,7 +145,7 @@ const AboutSection = () => {
                 ].map((item, index) => (
                   <motion.div 
                     key={index}
-                    className="flex gap-6"
+                    className="flex gap-3 md:gap-6 relative"
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ 
                       opacity: timelineVisible[index] ? 1 : 0, 
@@ -153,9 +153,9 @@ const AboutSection = () => {
                     }}
                     transition={{ duration: 0.6 }}
                   >
-                    <div className="relative">
+                    <div className="relative flex-shrink-0">
                       <motion.div 
-                        className="w-9 h-9 rounded-full bg-purple-600 flex items-center justify-center text-white text-sm z-10 relative"
+                        className="w-7 h-7 md:w-9 md:h-9 rounded-full bg-purple-600 flex items-center justify-center text-white text-xs md:text-sm z-10 relative"
                         initial={{ scale: 0 }}
                         animate={{ scale: timelineVisible[index] ? 1 : 0 }}
                         transition={{ duration: 0.4, delay: 0.2 }}
@@ -180,10 +180,10 @@ const AboutSection = () => {
                       )}
                     </div>
                     
-                    <div>
-                      <div className="text-sm text-purple-400 font-medium mb-1">{item.year}</div>
-                      <h4 className="text-lg font-semibold text-white mb-2">{item.title}</h4>
-                      <p className="text-gray-400">{item.description}</p>
+                    <div className="flex-1 min-w-0">
+                      <div className="text-xs md:text-sm text-purple-400 font-medium mb-1">{item.year}</div>
+                      <h4 className="text-base md:text-lg font-semibold text-white mb-1 md:mb-2">{item.title}</h4>
+                      <p className="text-sm md:text-base text-gray-400 leading-relaxed">{item.description}</p>
                     </div>
                   </motion.div>
                 ))}
@@ -192,26 +192,26 @@ const AboutSection = () => {
             
             {/* Mission & Vision */}
             <div>
-              <h3 className="text-2xl font-bold text-purple-300 mb-6">Our Mission & Vision</h3>
+              <h3 className="text-xl md:text-2xl font-bold text-purple-300 mb-4 md:mb-6">Our Mission & Vision</h3>
               
               <motion.div
                 variants={containerVariants}
                 initial="hidden"
                 whileInView="show"
                 viewport={{ once: true }}
-                className="space-y-6"
+                className="space-y-4 md:space-y-6"
               >
-                <motion.div variants={itemVariants} className="bg-gray-800/50 p-6 rounded-lg border border-purple-500/20">
-                  <h4 className="text-xl font-semibold text-white mb-2">Mission</h4>
-                  <p className="text-gray-300">
+                <motion.div variants={itemVariants} className="bg-gray-800/50 p-4 md:p-6 rounded-lg border border-purple-500/20">
+                  <h4 className="text-lg md:text-xl font-semibold text-white mb-2">Mission</h4>
+                  <p className="text-sm md:text-base text-gray-300 leading-relaxed">
                     To create innovative gaming experiences that bring joy and excitement to players worldwide,
                     while pushing the boundaries of what games can achieve as an art form and entertainment medium.
                   </p>
                 </motion.div>
                 
-                <motion.div variants={itemVariants} className="bg-gray-800/50 p-6 rounded-lg border border-purple-500/20">
-                  <h4 className="text-xl font-semibold text-white mb-2">Vision</h4>
-                  <p className="text-gray-300">
+                <motion.div variants={itemVariants} className="bg-gray-800/50 p-4 md:p-6 rounded-lg border border-purple-500/20">
+                  <h4 className="text-lg md:text-xl font-semibold text-white mb-2">Vision</h4>
+                  <p className="text-sm md:text-base text-gray-300 leading-relaxed">
                     To become a leading game development studio recognized for crafting immersive worlds, 
                     compelling narratives, and gameplay that resonates with diverse audiences globally.
                   </p>
@@ -221,13 +221,13 @@ const AboutSection = () => {
           </div>
           
           {/* Studio profile with image */}
-          <div>
+          <div className="order-1 lg:order-2">
             <motion.div 
-              className="relative mb-10"
+              className="relative mb-6 md:mb-10"
               style={{ y, opacity }}
               ref={imageRef}
             >
-              <div className="w-full h-[480px] relative rounded-lg overflow-hidden group">
+              <div className="w-full h-[300px] md:h-[480px] relative rounded-lg overflow-hidden group">
                 {/* Updated image to use the second uploaded image */}
                 <motion.img 
                   src="/lovable-uploads/c77fb9d0-be3f-41dc-86d8-309de40b43a9.png"
@@ -243,9 +243,9 @@ const AboutSection = () => {
                 <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/60 to-transparent opacity-80" />
                 
                 {/* Content */}
-                <div className="absolute bottom-0 left-0 right-0 p-6">
+                <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6">
                   <motion.h3 
-                    className="text-2xl font-bold text-white mb-2"
+                    className="text-xl md:text-2xl font-bold text-white mb-2"
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.3, duration: 0.6 }}
@@ -254,7 +254,7 @@ const AboutSection = () => {
                   </motion.h3>
                   
                   <motion.p 
-                    className="text-gray-300"
+                    className="text-sm md:text-base text-gray-300 leading-relaxed"
                     initial={{ opacity: 0 }}
                     whileInView={{ opacity: 1 }}
                     transition={{ delay: 0.5, duration: 0.6 }}
@@ -281,9 +281,9 @@ const AboutSection = () => {
               whileInView="show"
               viewport={{ once: true }}
             >
-              <h3 className="text-2xl font-bold text-purple-300 mb-6">Our Core Values</h3>
+              <h3 className="text-xl md:text-2xl font-bold text-purple-300 mb-4 md:mb-6">Our Core Values</h3>
               
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
                 {[
                   { value: "Innovation", description: "We constantly push boundaries to create fresh gaming experiences." },
                   { value: "Quality", description: "We never compromise on the polish and performance of our games." },
@@ -293,11 +293,11 @@ const AboutSection = () => {
                   <motion.div
                     key={index}
                     variants={itemVariants}
-                    className="bg-gray-800/50 p-5 rounded-lg border border-purple-500/20 hover:border-purple-500/50 transition-colors"
+                    className="bg-gray-800/50 p-4 md:p-5 rounded-lg border border-purple-500/20 hover:border-purple-500/50 transition-colors"
                     whileHover={{ y: -5, transition: { duration: 0.2 } }}
                   >
-                    <h4 className="text-lg font-semibold text-purple-300 mb-2">{item.value}</h4>
-                    <p className="text-gray-400 text-sm">{item.description}</p>
+                    <h4 className="text-base md:text-lg font-semibold text-purple-300 mb-2">{item.value}</h4>
+                    <p className="text-xs md:text-sm text-gray-400 leading-relaxed">{item.description}</p>
                   </motion.div>
                 ))}
               </div>
