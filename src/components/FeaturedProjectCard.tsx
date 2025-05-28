@@ -2,8 +2,6 @@
 import { useState, memo } from "react";
 import { motion } from "framer-motion";
 import { ExternalLink, Info } from "lucide-react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
 
 interface ProjectProps {
   project: {
@@ -102,42 +100,51 @@ const FeaturedProjectCard = memo(({ project }: ProjectProps) => {
         </div>
       </motion.div>
 
-      {/* Project Details Dialog */}
-      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="bg-gray-800 border-gray-700 text-white max-w-3xl">
-          <DialogHeader>
-            <DialogTitle className="text-2xl text-purple-400">{project.title}</DialogTitle>
-          </DialogHeader>
-          
-          <div className="grid gap-6 py-4">
-            <div className="relative h-56 md:h-72 w-full overflow-hidden rounded-lg">
-              <img 
-                src={project.image} 
-                alt={project.title} 
-                loading="lazy"
-                className="w-full h-full object-cover"
-              />
-            </div>
-            
-            <div>
-              <h4 className="text-lg font-semibold text-purple-300 mb-2">Description</h4>
-              <p className="text-gray-300">{project.detailedDescription || project.description}</p>
-            </div>
-            
-            <div className="flex justify-end">
-              <Button 
-                asChild
-                size="sm"
-                className="bg-purple-600 hover:bg-purple-700"
-              >
-                <a href={project.demoUrl} target="_blank" rel="noopener noreferrer">
-                  <ExternalLink className="mr-2" size={16} /> View Demo
-                </a>
-              </Button>
+      {/* Project Details Modal */}
+      {isDialogOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50" onClick={() => setIsDialogOpen(false)}>
+          <div className="bg-gray-800 border border-gray-700 text-white max-w-3xl w-full rounded-lg" onClick={(e) => e.stopPropagation()}>
+            <div className="p-6">
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-2xl text-purple-400 font-bold">{project.title}</h2>
+                <button 
+                  onClick={() => setIsDialogOpen(false)}
+                  className="text-gray-400 hover:text-white text-xl font-bold"
+                >
+                  ×
+                </button>
+              </div>
+              
+              <div className="grid gap-6 py-4">
+                <div className="relative h-56 md:h-72 w-full overflow-hidden rounded-lg">
+                  <img 
+                    src={project.image} 
+                    alt={project.title} 
+                    loading="lazy"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                
+                <div>
+                  <h4 className="text-lg font-semibold text-purple-300 mb-2">Description</h4>
+                  <p className="text-gray-300">{project.detailedDescription || project.description}</p>
+                </div>
+                
+                <div className="flex justify-end">
+                  <a 
+                    href={project.demoUrl} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded text-white text-sm font-medium transition-colors"
+                  >
+                    <ExternalLink className="mr-2" size={16} /> View Demo
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
-        </DialogContent>
-      </Dialog>
+        </div>
+      )}
     </>
   );
 });
